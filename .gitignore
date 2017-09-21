@@ -1,5 +1,7 @@
 
 *.swp
+tags
+cscope.*
 
 aes_test
 arcfour_test
