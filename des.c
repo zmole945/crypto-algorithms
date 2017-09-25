@@ -16,9 +16,9 @@
 
 /****************************** MACROS ******************************/
 // Obtain bit "b" from the left and shift it "c" places from the right
-#define BITNUM(a,b,c)     (((a[(b)/8] >> (7 - (b%8))) & 0x01) << (c))
+#define BITNUM(a,b,c)     ( ((a[(b)/8] >> (7-(b%8))) & 0x01 ) << (c))
 #define BITNUMINTR(a,b,c) ((((a) >> (31 - (b))) & 0x00000001) << (c))
-#define BITNUMINTL(a,b,c) ((((a) << (b)) & 0x80000000) >> (c))
+#define BITNUMINTL(a,b,c) ((((a) << (     (b))) & 0x80000000) >> (c))
 
 // This macro converts a 6 bit block with the S-Box row defined as the first and last
 // bits to a 6 bit block with the row defined by the first two bits.
@@ -261,21 +261,25 @@ void des_key_setup(const BYTE key[], BYTE schedule[][6], DES_MODE mode)
 {
     WORD i, j, to_gen, C, D;
     const WORD key_rnd_shift[16] = {
-        1,1,2,2,2,2,2,2,
-        1,2,2,2,2,2,2,1};
+        1, 1, 2, 2, 2, 2, 2, 2,
+        1, 2, 2, 2, 2, 2, 2, 1 };
     const WORD key_perm_c[28] = {
-        56,48,40,32,24,16,8,0,57,49,41,33,25,17,
-        9,1,58,50,42,34,26,18,10,2,59,51,43,35};
+        56, 48, 40, 32, 24, 16, 8 , 0 ,
+        57, 49, 41, 33, 25, 17, 9 , 1 ,
+        58, 50, 42, 34, 26, 18, 10, 2 ,
+        59, 51, 43, 35 };
     const WORD key_perm_d[28] = {
-        62,54,46,38,30,22,14,6,61,53,45,37,29,21,
-        13,5,60,52,44,36,28,20,12,4,27,19,11,3};
+        62, 54, 46, 38, 30, 22, 14, 6 ,
+        61, 53, 45, 37, 29, 21, 13, 5 ,
+        60, 52, 44, 36, 28, 20, 12, 4 ,
+        27, 19, 11, 3  };
     const WORD key_compression[48] = {
-        13,16,10,23,0,4,2,27,
-        14,5,20,9,22,18,11,3,
-        25,7,15,6,26,19,12,1,
-        40,51,30,36,46,54,29,39,
-        50,44,32,47,43,48,38,55,
-        33,52,45,41,49,35,28,31};
+        13, 16, 10, 23, 0 , 4 , 2 , 27,
+        14, 5 , 20, 9 , 22, 18, 11, 3 ,
+        25, 7 , 15, 6 , 26, 19, 12, 1 ,
+        40, 51, 30, 36, 46, 54, 29, 39,
+        50, 44, 32, 47, 43, 48, 38, 55,
+        33, 52, 45, 41, 49, 35, 28, 31 };
 
     // Permutated Choice #1 (copy the key in, ignoring parity bits).
     for (i = 0, j = 31, C = 0; i < 28; ++i, --j)
@@ -296,11 +300,11 @@ void des_key_setup(const BYTE key[], BYTE schedule[][6], DES_MODE mode)
             to_gen = i;
         // Initialize the array
         for (j = 0; j < 6; ++j)
-            schedule[to_gen][j] = 0;
+            schedule[to_gen][j]   = 0;
         for (j = 0; j < 24; ++j)
-            schedule[to_gen][j/8] |= BITNUMINTR(C,key_compression[j],7 - (j%8));
+            schedule[to_gen][j/8] |= BITNUMINTR(C, key_compression[j]    ,7 - (j%8));
         for ( ; j < 48; ++j)
-            schedule[to_gen][j/8] |= BITNUMINTR(D,key_compression[j] - 28,7 - (j%8));
+            schedule[to_gen][j/8] |= BITNUMINTR(D, key_compression[j]-28 ,7 - (j%8));
     }
 }
 
