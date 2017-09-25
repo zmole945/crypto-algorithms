@@ -10,6 +10,7 @@
  *********************************************************************/
 
 /*************************** HEADER FILES ***************************/
+#include <stdbool.h>
 #include <stdlib.h>
 #include <memory.h>
 #include "des.h"
@@ -345,3 +346,48 @@ void three_des_crypt(const BYTE in[], BYTE out[], BYTE key[][16][6])
     des_crypt(out,out,key[1]);
     des_crypt(out,out,key[2]);
 }
+
+int des_alg(    const uint8_t   *in,
+                uint8_t         *out,
+                const uint8_t   *key,
+                des_mode_t      mode)
+{
+    BYTE schedule[16][6];
+
+    if (false) {
+        return -1;
+    } else if (mode == MODE_ENCRYPT) {
+        des_key_setup(key, schedule, mode);
+        des_crypt(in, out, schedule);
+        return 0;
+    } else if (mode == MODE_DECRYPT) {
+        des_key_setup(key, schedule, mode);
+        des_crypt(in, out, schedule);
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
+int tdes_alg(  const uint8_t   *in,
+                    uint8_t         *out,
+                    const uint8_t   *key,
+                    des_mode_t      mode)
+{
+    BYTE three_schedule[3][16][6];
+
+    if (false) {
+        return -1;
+    } else if (mode == MODE_ENCRYPT) {
+        three_des_key_setup(key, three_schedule, mode);
+        three_des_crypt(in, out, three_schedule);
+        return 0;
+    } else if (mode == MODE_DECRYPT) {
+        three_des_key_setup(key, three_schedule, mode);
+        three_des_crypt(in, out, three_schedule);
+        return 0;
+    } else {
+        return -1;
+    }
+}
+

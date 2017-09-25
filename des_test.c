@@ -40,16 +40,27 @@ int des_test()
     BYTE schedule[16][6];
     BYTE three_schedule[3][16][6];
     BYTE buf[DES_BLOCK_SIZE];
+
     int pass = 1;
 
+    //pt1 <==== key1 des ====> ct1
+#if 1
+    des_alg(pt1, buf, key1, DES_ENCRYPT);
+#else
     des_key_setup(key1, schedule, DES_ENCRYPT);
     des_crypt(pt1, buf, schedule);
+#endif
     pass = pass && !memcmp(ct1, buf, DES_BLOCK_SIZE);
 
+#if 1
+    des_alg(ct1, buf, key1, DES_DECRYPT);
+#else
     des_key_setup(key1, schedule, DES_DECRYPT);
     des_crypt(ct1, buf, schedule);
+#endif
     pass = pass && !memcmp(pt1, buf, DES_BLOCK_SIZE);
 
+    //pt2 <==== key2 des ====> ct2
     des_key_setup(key2, schedule, DES_ENCRYPT);
     des_crypt(pt2, buf, schedule);
     pass = pass && !memcmp(ct2, buf, DES_BLOCK_SIZE);
@@ -58,14 +69,20 @@ int des_test()
     des_crypt(ct2, buf, schedule);
     pass = pass && !memcmp(pt2, buf, DES_BLOCK_SIZE);
 
+    //pt1 <==== three_key1 3des ====> ct3
+#if 1
+    tdes_alg(pt1, buf, three_key1, DES_ENCRYPT);
+#else
     three_des_key_setup(three_key1, three_schedule, DES_ENCRYPT);
     three_des_crypt(pt1, buf, three_schedule);
+#endif
     pass = pass && !memcmp(ct3, buf, DES_BLOCK_SIZE);
 
     three_des_key_setup(three_key1, three_schedule, DES_DECRYPT);
     three_des_crypt(ct3, buf, three_schedule);
     pass = pass && !memcmp(pt1, buf, DES_BLOCK_SIZE);
 
+    //pt3 <==== three_key2 3des ====> ct4
     three_des_key_setup(three_key2, three_schedule, DES_ENCRYPT);
     three_des_crypt(pt3, buf, three_schedule);
     pass = pass && !memcmp(ct4, buf, DES_BLOCK_SIZE);
