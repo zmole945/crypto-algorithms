@@ -205,7 +205,7 @@ WORD f(WORD state, const BYTE key[])
         BITNUMINTL(state,24,11) |
         BITNUMINTL(state,23,12) | ((state & 0x000000f0) << 11)|
         BITNUMINTL(state,28,17) |
-        BITNUMINTL(state,27,18) | ((state & 0x0000000f) << 9) |
+        BITNUMINTL(state,27,18) | ((state & 0x0000000f) << 9 )|
         BITNUMINTL(state,0, 23) ;
 
     lrgstate[0] = (t1 >> 24) & 0x000000ff;
@@ -304,21 +304,21 @@ void des_key_setup(const BYTE key[], BYTE schedule[][6], DES_MODE mode)
     }
 }
 
-void des_crypt(const BYTE in[], BYTE out[], const BYTE key[][6])
+void des_crypt(const BYTE in[], BYTE out[], BYTE key[][6])
 {
-    WORD state[2],idx,t;
+    WORD state[2], idx, t;
 
-    IP(state,in);
+    IP(state, in);
 
     for (idx=0; idx < 15; ++idx) {
-        t = state[1];
+        t        = state[1];
         state[1] = f(state[1],key[idx]) ^ state[0];
         state[0] = t;
     }
     // Perform the final loop manually as it doesn't switch sides
-    state[0] = f(state[1],key[15]) ^ state[0];
+    state[0] = f(state[1], key[15]) ^ state[0];
 
-    InvIP(state,out);
+    InvIP(state, out);
 }
 
 void three_des_key_setup(const BYTE key[], BYTE schedule[][16][6], DES_MODE mode)
@@ -335,7 +335,7 @@ void three_des_key_setup(const BYTE key[], BYTE schedule[][16][6], DES_MODE mode
     }
 }
 
-void three_des_crypt(const BYTE in[], BYTE out[], const BYTE key[][16][6])
+void three_des_crypt(const BYTE in[], BYTE out[], BYTE key[][16][6])
 {
     des_crypt(in, out,key[0]);
     des_crypt(out,out,key[1]);
