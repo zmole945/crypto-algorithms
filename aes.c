@@ -704,18 +704,26 @@ int aes_decrypt_ccm(    const BYTE      ciphertext[],
     aes_key_setup(key_str, key, keysize);
 
     // Copy the plaintext and MAC to the output buffers.
-    *plaintext_len = ciphertext_len - mac_len;
-    plaintext_len_store_size = AES_BLOCK_SIZE - 1 - nonce_len;
+    *plaintext_len              = ciphertext_len - mac_len;
+    plaintext_len_store_size    = AES_BLOCK_SIZE - 1 - nonce_len;
     memcpy(plaintext, ciphertext, *plaintext_len);
     memcpy(mac, &ciphertext[*plaintext_len], mac_len);
 
     // Prepare the first counter block for use in decryption.
-    ccm_prepare_first_ctr_blk(counter, nonce, nonce_len, plaintext_len_store_size);
+    ccm_prepare_first_ctr_blk(  counter,
+                                nonce,
+                                nonce_len,
+                                plaintext_len_store_size);
 
     // Decrypt the Payload with CTR mode with a counter starting at 1.
     memcpy(temp_iv, counter, AES_BLOCK_SIZE);
     increment_iv(temp_iv, AES_BLOCK_SIZE - 1 - mac_len);   // (AES_BLOCK_SIZE - 1 - mac_len) is the byte size of the counting portion of the counter block.
-    aes_decrypt_ctr(plaintext, *plaintext_len, plaintext, key, keysize, temp_iv);
+    aes_decrypt_ctr(plaintext,
+                    *plaintext_len,
+                    plaintext,
+                    key,
+                    keysize,
+                    temp_iv);
 
     // Setting mac_auth to NULL disables the authentication check.
     if (mac_auth != NULL) {
@@ -724,7 +732,13 @@ int aes_decrypt_ccm(    const BYTE      ciphertext[],
 
         // Format the first block of the formatted data.
         plaintext_len_store_size = AES_BLOCK_SIZE - 1 - nonce_len;
-        ccm_prepare_first_format_blk(buf, assoc_len, *plaintext_len, plaintext_len_store_size, mac_len, nonce, nonce_len);
+        ccm_prepare_first_format_blk(   buf,
+                                        assoc_len,
+                                        *plaintext_len,
+                                        plaintext_len_store_size,
+                                        mac_len,
+                                        nonce,
+                                        nonce_len);
         end_of_buf = AES_BLOCK_SIZE;
 
         // Format the Associated Data into the authentication buffer.
@@ -735,7 +749,12 @@ int aes_decrypt_ccm(    const BYTE      ciphertext[],
 
         // Perform the CBC operation with an IV of zeros on the formatted buffer to calculate the MAC.
         memset(temp_iv, 0, AES_BLOCK_SIZE);
-        aes_encrypt_cbc_mac(buf, end_of_buf, mac_buf, key, keysize, temp_iv);
+        aes_encrypt_cbc_mac(buf,
+                            end_of_buf,
+                            mac_buf,
+                            key,
+                            keysize,
+                            temp_iv);
 
         // Compare the calculated MAC against the MAC embedded in the ciphertext to see if they are the same.
         if (! memcmp(mac, mac_buf, mac_len)) {
@@ -773,10 +792,13 @@ void ccm_prepare_first_format_blk(  BYTE        buf[],
                                     int         nonce_len)
 {
     // Set the flags for the first byte of the first block.
-    buf[0] = ((((mac_len - 2) / 2) & 0x07) << 3) | ((payload_len_store_size - 1) & 0x07);
+    buf[0] =
+        ((((mac_len - 2) / 2) & 0x07) << 3) |
+        ((payload_len_store_size - 1) & 0x07);
     if (assoc_len > 0)
         buf[0] += 0x40;
-    // Format the rest of the first block, storing the nonce and the size of the payload.
+    // Format the rest of the first block, storing the nonce
+    // and the size of the payload.
     memcpy(&buf[1], nonce, nonce_len);
     memset(&buf[1 + nonce_len], 0, AES_BLOCK_SIZE - 1 - nonce_len);
     buf[15] = payload_len & 0x000000FF;
@@ -790,8 +812,8 @@ void ccm_format_assoc_data( BYTE        buf[],
 {
     int pad;
 
-    buf[*end_of_buf + 1] = assoc_len & 0x00FF;
-    buf[*end_of_buf] = (assoc_len >> 8) & 0x00FF;
+    buf[*end_of_buf + 1]    = assoc_len & 0x00FF;
+    buf[*end_of_buf]        = (assoc_len >> 8) & 0x00FF;
     *end_of_buf += 2;
     memcpy(&buf[*end_of_buf], assoc, assoc_len);
     *end_of_buf += assoc_len;
@@ -839,7 +861,9 @@ WORD SubWord(WORD word)
 // Performs the action of generating the keys that will be used in every round of
 // encryption. "key" is the user-supplied input key, "w" is the output key schedule,
 // "keysize" is the length in bits of "key", must be 128, 192, or 256.
-void aes_key_setup(const BYTE key[], WORD w[], int keysize)
+void aes_key_setup( const BYTE  key[],
+                    WORD        w[],
+                    int         keysize)
 {
     int Nb=4,Nr,Nk,idx;
     WORD temp,Rcon[]={
@@ -877,16 +901,19 @@ void aes_key_setup(const BYTE key[], WORD w[], int keysize)
 /////////////////
 // ADD ROUND KEY
 /////////////////
-
-// Performs the AddRoundKey step. Each round has its own pre-generated 16-byte key in the
-// form of 4 integers (the "w" array). Each integer is XOR'd by one column of the state.
-// Also performs the job of InvAddRoundKey(); since the function is a simple XOR process,
+// Performs the AddRoundKey step.
+// Each round has its own pre-generated 16-byte key in the
+// form of 4 integers (the "w" array).
+// Each integer is XOR'd by one column of the state.
+// Also performs the job of InvAddRoundKey(); since the
+// function is a simple XOR process,
 // it is its own inverse.
 void AddRoundKey(BYTE state[][4], const WORD w[])
 {
     BYTE subkey[4];
 
-    // memcpy(subkey,&w[idx],4); // Not accurate for big endian machines
+    // memcpy(subkey,&w[idx],4);
+    // Not accurate for big endian machines
     // Subkey 1
     subkey[0] = w[0] >> 24;
     subkey[1] = w[0] >> 16;
