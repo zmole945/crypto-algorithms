@@ -16,6 +16,32 @@
 #include <memory.h>
 #include "des.h"
 
+static int test_tdes_1024(void)
+{
+    int pass = 1;
+
+    BYTE key[DES_BLOCK_SIZE*3]   = {
+        0x59,0x87,0x42,0x36,0x51,0x45,0x69,0x87,
+        0x59,0x87,0x42,0x36,0x51,0x45,0x69,0x87,
+        0x59,0x87,0x42,0x36,0x51,0x45,0x69,0x87};
+
+    BYTE pt[DES_BLOCK_SIZE]    = {
+        0x54,0x69,0x87,0x53,0x21,0x45,0x60,0x45};
+    
+    BYTE ct[DES_BLOCK_SIZE]    = {
+        0x6b,0x86,0x6c,0x00,0xd3,0x37,0xca,0xa8};
+    
+    BYTE buf[DES_BLOCK_SIZE];
+    
+    tdes_alg(pt, buf, key, DES_ENCRYPT);
+
+    pass = !memcmp(ct, buf, DES_BLOCK_SIZE);
+    
+    printf("3DES test: %s\n", pass ? "SUCCEEDED" : "FAILED");
+
+    return 0;
+}
+
 /*********************** FUNCTION DEFINITIONS ***********************/
 int des_test()
 {
@@ -96,7 +122,9 @@ int des_test()
 
 int main()
 {
-    printf("DES test: %s\n", des_test() ? "SUCCEEDED" : "FAILED");
+    //printf("DES test: %s\n", des_test() ? "SUCCEEDED" : "FAILED");
+
+    test_tdes_1024();
 
     return(0);
 }
