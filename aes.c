@@ -409,8 +409,9 @@ static const BYTE gf_mul[256][6] = {
 };
 
 /*********************** FUNCTION DEFINITIONS ***********************/
-// XORs the in and out buffers, storing the result in out. Length is in bytes.
-void xor_buf(const BYTE in[], BYTE out[], size_t len)
+// XORs the in and out buffers, storing the result in out.
+// Length is in bytes.
+static void xor_buf(const BYTE in[], BYTE out[], size_t len)
 {
     size_t idx;
 
@@ -529,7 +530,8 @@ void increment_iv(BYTE iv[], int counter_size)
     }
 }
 
-// Performs the encryption in-place, the input and output buffers may be the same.
+// Performs the encryption in-place, the input and output
+// buffers may be the same.
 // Input may be an arbitrary length (in bytes).
 void aes_encrypt_ctr(   const BYTE  in[],
         size_t      in_len,
@@ -605,7 +607,10 @@ int aes_encrypt_ccm(    const BYTE      payload[],
     if (assoc_len > 32768 /* = 2^15 */)
         return(FALSE);
 
-    buf = (BYTE*)malloc(payload_len + assoc_len + 48 /*Round both payload and associated data up a block size and add an extra block.*/);
+    buf = (BYTE*)malloc(payload_len + assoc_len + 48);
+    /*Round both payload and associated data up a block
+    size and add an extra block.*/
+
     if (! buf)
         return(FALSE);
 
@@ -696,7 +701,8 @@ int aes_decrypt_ccm(    const BYTE      ciphertext[],
     if (ciphertext_len <= mac_len)
         return(FALSE);
 
-    buf = (BYTE*)malloc(assoc_len + ciphertext_len /*ciphertext_len = plaintext_len + mac_len*/ + 48);
+    /*ciphertext_len = plaintext_len + mac_len*/
+    buf = (BYTE*)malloc(assoc_len + ciphertext_len + 48);
     if (! buf)
         return(FALSE);
 
@@ -715,9 +721,13 @@ int aes_decrypt_ccm(    const BYTE      ciphertext[],
                                 nonce_len,
                                 plaintext_len_store_size);
 
-    // Decrypt the Payload with CTR mode with a counter starting at 1.
+    // Decrypt the Payload with CTR mode with a counter
+    // starting at 1.
     memcpy(temp_iv, counter, AES_BLOCK_SIZE);
-    increment_iv(temp_iv, AES_BLOCK_SIZE - 1 - mac_len);   // (AES_BLOCK_SIZE - 1 - mac_len) is the byte size of the counting portion of the counter block.
+    increment_iv(temp_iv, AES_BLOCK_SIZE - 1 - mac_len);
+    // (AES_BLOCK_SIZE - 1 - mac_len) is the byte size of
+    // the counting portion of the counter block.
+
     aes_decrypt_ctr(plaintext,
                     *plaintext_len,
                     plaintext,
@@ -747,7 +757,8 @@ int aes_decrypt_ccm(    const BYTE      ciphertext[],
         // Format the Payload into the authentication buffer.
         ccm_format_payload_data(buf, &end_of_buf, plaintext, *plaintext_len);
 
-        // Perform the CBC operation with an IV of zeros on the formatted buffer to calculate the MAC.
+        // Perform the CBC operation with an IV of zeros on
+        // the formatted buffer to calculate the MAC.
         memset(temp_iv, 0, AES_BLOCK_SIZE);
         aes_encrypt_cbc_mac(buf,
                             end_of_buf,
@@ -756,7 +767,8 @@ int aes_decrypt_ccm(    const BYTE      ciphertext[],
                             keysize,
                             temp_iv);
 
-        // Compare the calculated MAC against the MAC embedded in the ciphertext to see if they are the same.
+        // Compare the calculated MAC against the MAC embedded
+        // in the ciphertext to see if they are the same.
         if (! memcmp(mac, mac_buf, mac_len)) {
             *mac_auth = TRUE;
         }
@@ -858,9 +870,11 @@ WORD SubWord(WORD word)
     return(result);
 }
 
-// Performs the action of generating the keys that will be used in every round of
-// encryption. "key" is the user-supplied input key, "w" is the output key schedule,
-// "keysize" is the length in bits of "key", must be 128, 192, or 256.
+// Performs the action of generating the keys that
+// will be used in every round of encryption. "key"
+// is the user-supplied input key, "w" is the output
+// key schedule, "keysize" is the length in bits of "key",
+// must be 128, 192, or 256.
 void aes_key_setup( const BYTE  key[],
                     WORD        w[],
                     int         keysize)
@@ -1002,7 +1016,8 @@ void InvSubBytes(BYTE state[][4])
 // (Inv)ShiftRows
 /////////////////
 
-// Performs the ShiftRows step. All rows are shifted cylindrically to the left.
+// Performs the ShiftRows step.
+// All rows are shifted cylindrically to the left.
 void ShiftRows(BYTE state[][4])
 {
     int t;
@@ -1058,10 +1073,13 @@ void InvShiftRows(BYTE state[][4])
 // (Inv)MixColumns
 /////////////////
 
-// Performs the MixColums step. The state is multiplied by itself using matrix
-// multiplication in a Galios Field 2^8. All multiplication is pre-computed in a table.
-// Addition is equivilent to XOR. (Must always make a copy of the column as the original
-// values will be destoyed.)
+// Performs the MixColums step.
+// The state is multiplied by itself using matrix
+// multiplication in a Galios Field 2^8.
+// All multiplication is pre-computed in a table.
+// Addition is equivilent to XOR. (Must always
+// make a copy of the column as the original values
+// will be destoyed.)
 void MixColumns(BYTE state[][4])
 {
     BYTE col[4];
@@ -1261,16 +1279,16 @@ void aes_encrypt(   const BYTE  in[],
     // element in C requires row then column.
     // Thus, all state references in AES must have the column
     // and row indexes reversed for C implementation.
-    state[0][0] = in[0];
-    state[1][0] = in[1];
-    state[2][0] = in[2];
-    state[3][0] = in[3];
-    state[0][1] = in[4];
-    state[1][1] = in[5];
-    state[2][1] = in[6];
-    state[3][1] = in[7];
-    state[0][2] = in[8];
-    state[1][2] = in[9];
+    state[0][0] = in[0 ];
+    state[1][0] = in[1 ];
+    state[2][0] = in[2 ];
+    state[3][0] = in[3 ];
+    state[0][1] = in[4 ];
+    state[1][1] = in[5 ];
+    state[2][1] = in[6 ];
+    state[3][1] = in[7 ];
+    state[0][2] = in[8 ];
+    state[1][2] = in[9 ];
     state[2][2] = in[10];
     state[3][2] = in[11];
     state[0][3] = in[12];
@@ -1355,16 +1373,16 @@ void aes_encrypt(   const BYTE  in[],
     }
 
     // Copy the state to the output array.
-    out[0] = state[0][0];
-    out[1] = state[1][0];
-    out[2] = state[2][0];
-    out[3] = state[3][0];
-    out[4] = state[0][1];
-    out[5] = state[1][1];
-    out[6] = state[2][1];
-    out[7] = state[3][1];
-    out[8] = state[0][2];
-    out[9] = state[1][2];
+    out[0 ] = state[0][0];
+    out[1 ] = state[1][0];
+    out[2 ] = state[2][0];
+    out[3 ] = state[3][0];
+    out[4 ] = state[0][1];
+    out[5 ] = state[1][1];
+    out[6 ] = state[2][1];
+    out[7 ] = state[3][1];
+    out[8 ] = state[0][2];
+    out[9 ] = state[1][2];
     out[10] = state[2][2];
     out[11] = state[3][2];
     out[12] = state[0][3];
@@ -1373,21 +1391,24 @@ void aes_encrypt(   const BYTE  in[],
     out[15] = state[3][3];
 }
 
-void aes_decrypt(const BYTE in[], BYTE out[], const WORD key[], int keysize)
+void aes_decrypt(   const BYTE  in[],
+                    BYTE        out[],
+                    const WORD  key[],
+                    int         keysize)
 {
     BYTE state[4][4];
 
     // Copy the input to the state.
-    state[0][0] = in[0];
-    state[1][0] = in[1];
-    state[2][0] = in[2];
-    state[3][0] = in[3];
-    state[0][1] = in[4];
-    state[1][1] = in[5];
-    state[2][1] = in[6];
-    state[3][1] = in[7];
-    state[0][2] = in[8];
-    state[1][2] = in[9];
+    state[0][0] = in[0 ];
+    state[1][0] = in[1 ];
+    state[2][0] = in[2 ];
+    state[3][0] = in[3 ];
+    state[0][1] = in[4 ];
+    state[1][1] = in[5 ];
+    state[2][1] = in[6 ];
+    state[3][1] = in[7 ];
+    state[0][2] = in[8 ];
+    state[1][2] = in[9 ];
     state[2][2] = in[10];
     state[3][2] = in[11];
     state[0][3] = in[12];
@@ -1455,27 +1476,27 @@ void aes_decrypt(const BYTE in[], BYTE out[], const WORD key[], int keysize)
     InvMixColumns(state);
     InvShiftRows(state);
     InvSubBytes(state);
-    AddRoundKey(state,&key[8]);
+    AddRoundKey(state,&key[8 ]);
     InvMixColumns(state);
     InvShiftRows(state);
     InvSubBytes(state);
-    AddRoundKey(state,&key[4]);
+    AddRoundKey(state,&key[4 ]);
     InvMixColumns(state);
     InvShiftRows(state);
     InvSubBytes(state);
-    AddRoundKey(state,&key[0]);
+    AddRoundKey(state,&key[0 ]);
 
     // Copy the state to the output array.
-    out[0] = state[0][0];
-    out[1] = state[1][0];
-    out[2] = state[2][0];
-    out[3] = state[3][0];
-    out[4] = state[0][1];
-    out[5] = state[1][1];
-    out[6] = state[2][1];
-    out[7] = state[3][1];
-    out[8] = state[0][2];
-    out[9] = state[1][2];
+    out[0 ] = state[0][0];
+    out[1 ] = state[1][0];
+    out[2 ] = state[2][0];
+    out[3 ] = state[3][0];
+    out[4 ] = state[0][1];
+    out[5 ] = state[1][1];
+    out[6 ] = state[2][1];
+    out[7 ] = state[3][1];
+    out[8 ] = state[0][2];
+    out[9 ] = state[1][2];
     out[10] = state[2][2];
     out[11] = state[3][2];
     out[12] = state[0][3];
