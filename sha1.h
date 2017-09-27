@@ -28,8 +28,34 @@ typedef struct {
 } SHA1_CTX;
 
 /*********************** FUNCTION DECLARATIONS **********************/
+
+//=================================================
+/// -
+/// sha1 摘要算法初始化
+/// @param ctx    算法上下文，包含算法相關參數，中間結果等
+/// @return       des result good/bad
+/// -
 void sha1_init(SHA1_CTX *ctx);
-void sha1_update(SHA1_CTX *ctx, const BYTE data[], size_t len);
+
+//=================================================
+/// -
+/// sha1 摘要加密算法更新分組計算結果
+/// @param ctx    算法上下文，包含算法相關參數，中間結果等
+/// @param data   分組數據
+/// @param len    分組數據長度
+/// @return       des result good/bad
+/// -
+void sha1_update(   SHA1_CTX    *ctx,
+                    const BYTE  data[],
+                    size_t      len);
+
+//=================================================
+/// -
+/// sha1 摘要加密算法結果輸出
+/// @param ctx    算法上下文，包含算法相關參數，中間結果等
+/// @param hash   摘要算法結果哈係數
+/// @return       des result good/bad
+/// -
 void sha1_final(SHA1_CTX *ctx, BYTE hash[]);
 
 #endif   // SHA1_H
