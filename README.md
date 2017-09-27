@@ -1,17 +1,34 @@
+
 crypto-algorithms
 =================
 
-
-About
+關於
 ---
-These are basic implementations of standard cryptography algorithms, written by Brad Conte (brad@bradconte.com) from scratch and without any cross-licensing. They exist to provide publically accessible, restriction-free implementations of popular cryptographic algorithms, like AES and SHA-1. These are primarily intended for educational and pragmatic purposes (such as comparing a specification to actual implementation code, or for building an internal application that computes test vectors for a product). The algorithms have been tested against standard test vectors.
+這裡整理了一份C語言實現的加密算法，部分來自:
+Brad Conte (brad@bradconte.com)
+gityf(voipman@sina.cn)
 
-This code is released into the public domain free of any restrictions. The author requests acknowledgement if the code is used, but does not require it. This code is provided free of any liability and without any quality claims by the author.
+這些算法經過了基本的數據測試可應用於教學演示用途，
+進行基本加解密，摘要計算等，或者用於對照算法實現結果。
 
-Note that these are *not* cryptographically secure implementations. They have no resistence to side-channel attacks and should not be used in contexts that need cryptographically secure implementations.
+這些算法未特別的進行時間與空間上的優化，以及健壯性的專門設計，
+如果要將其應用于商業用途，還需做相應的工作。
 
-These algorithms are not optimized for speed or space. They are primarily designed to be easy to read, although some basic optimization techniques have been employed.
+這些算法盡量只使用基本的C庫，避免更多依賴性，以方便移植維護。
 
-Building
+
+編譯
 ---
-The source code for each algorithm will come in a pair of a source code file and a header file. There should be no inter-header file dependencies, no additional libraries, no platform-specific header files, or any other complicating matters. Compiling them should be as easy as adding the relevent source code to the project.
+這裡包含des、aes、sha1、sha256、sm3、sm4等幾種算法，
+可以一次性編譯所有源碼，生成演示文件：
+ make all
+也可以單獨編譯其中一種，例如編譯sm3演示文件：
+ make sm3
+清除所有演示程序：
+ make clean
+
+源碼帶有doxygen配置文件，可以生成相應doxygen文檔：
+ make doxygen
+清除doxygen生成文件：
+ make doxygen_clean
+

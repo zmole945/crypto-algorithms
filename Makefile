@@ -41,6 +41,8 @@ sm4 :
 
 doxygen :
 	doxygen Doxyfile
+doxygen_clean :
+	rm -rf doc/
 
 clean :
 	rm -rf aes_test
@@ -53,4 +55,6 @@ clean :
 	rm -rf rot-13_test
 	rm -rf sha1_test
 	rm -rf sha256_test
+	rm -rf sm3_test
+	rm -rf sm4_test
 
