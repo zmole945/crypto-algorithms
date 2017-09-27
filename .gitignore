@@ -14,6 +14,8 @@ md5_test
 rot-13_test
 sha1_test
 sha256_test
+sm3_test
+sm4_test
        
 doc/
 

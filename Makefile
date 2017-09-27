@@ -1,7 +1,7 @@
 
 #CFLAGS = -Wall
 
-all : aes arcfour base64 blowfish des md2 md5 rot-13 sha1 sha256 doxygen
+all : aes arcfour base64 blowfish des md2 md5 rot-13 sha1 sha256 sm3 sm4
 
 aes : 
 	$(CC) $(CFLAGS) -o aes_test aes.c aes_test.c
@@ -32,6 +32,12 @@ sha1 :
 
 sha256 :
 	$(CC) $(CFLAGS) -o sha256_test sha256.c sha256_test.c
+
+sm3 :
+	$(CC) $(CFLAGS) -o sm3_test sm3.c sm3_test.c
+
+sm4 :
+	$(CC) $(CFLAGS) -o sm4_test sm4.c sm4_test.c
 
 doxygen :
 	doxygen Doxyfile
