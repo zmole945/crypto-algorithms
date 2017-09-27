@@ -135,14 +135,20 @@ int aes_ecb_test()
     //print_hex(key[0], 32);
 
     for(idx = 0; idx < 2; idx++) {
-        aes_encrypt(plaintext[idx], enc_buf, key_schedule, 256);
+        aes_encrypt(plaintext[idx],
+                    enc_buf,
+                    key_schedule,
+                    256);
         //printf("\nPlaintext    : ");
         //print_hex(plaintext[idx], 16);
         //printf("\n-encrypted to: ");
         //print_hex(enc_buf, 16);
         pass = pass && !memcmp(enc_buf, ciphertext[idx], 16);
 
-        aes_decrypt(ciphertext[idx], enc_buf, key_schedule, 256);
+        aes_decrypt(ciphertext[idx],
+                    enc_buf,
+                    key_schedule,
+                    256);
         //printf("\nCiphertext   : ");
         //print_hex(ciphertext[idx], 16);
         //printf("\n-decrypted to: ");
@@ -191,7 +197,12 @@ int aes_cbc_test()
     //printf("\nIV           : ");
     //print_hex(iv[0], 16);
 
-    aes_encrypt_cbc(plaintext[0], 32, enc_buf, key_schedule, 256, iv[0]);
+    aes_encrypt_cbc(plaintext[0],
+                    32,
+                    enc_buf,
+                    key_schedule,
+                    256,
+                    iv[0]);
     //printf("\nPlaintext    : ");
     //print_hex(plaintext[0], 32);
     //printf("\n-encrypted to: ");
@@ -200,7 +211,12 @@ int aes_cbc_test()
     //print_hex(ciphertext[0], 32);
     pass = pass && !memcmp(enc_buf, ciphertext[0], 32);
 
-    aes_decrypt_cbc(ciphertext[0], 32, enc_buf, key_schedule, 256, iv[0]);
+    aes_decrypt_cbc(ciphertext[0],
+                    32,
+                    enc_buf,
+                    key_schedule,
+                    256,
+                    iv[0]);
     //printf("\nCiphertext   : ");
     //print_hex(ciphertext[0], 32);
     //printf("\n-decrypted to: ");
@@ -249,14 +265,24 @@ int aes_ctr_test()
     //printf("\nIV           : ");
     //print_hex(iv[0], 16);
 
-    aes_encrypt_ctr(plaintext[0], 32, enc_buf, key_schedule, 256, iv[0]);
+    aes_encrypt_ctr(plaintext[0],
+                    32,
+                    enc_buf,
+                    key_schedule,
+                    256,
+                    iv[0]);
     //printf("\nPlaintext    : ");
     //print_hex(plaintext[0], 32);
     //printf("\n-encrypted to: ");
     //print_hex(enc_buf, 32);
     pass = pass && !memcmp(enc_buf, ciphertext[0], 32);
 
-    aes_decrypt_ctr(ciphertext[0], 32, enc_buf, key_schedule, 256, iv[0]);
+    aes_decrypt_ctr(ciphertext[0],
+                    32,
+                    enc_buf,
+                    key_schedule,
+                    256,
+                    iv[0]);
     //printf("\nCiphertext   : ");
     //print_hex(ciphertext[0], 32);
     //printf("\n-decrypted to: ");

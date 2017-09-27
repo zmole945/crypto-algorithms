@@ -738,7 +738,12 @@ int aes_decrypt_ccm(    const BYTE      ciphertext[],
     // Setting mac_auth to NULL disables the authentication check.
     if (mac_auth != NULL) {
         // Decrypt the MAC with CTR mode with a counter starting at 0.
-        aes_decrypt_ctr(mac, mac_len, mac, key, keysize, counter);
+        aes_decrypt_ctr(mac,
+                        mac_len,
+                        mac,
+                        key,
+                        keysize,
+                        counter);
 
         // Format the first block of the formatted data.
         plaintext_len_store_size = AES_BLOCK_SIZE - 1 - nonce_len;
@@ -752,10 +757,16 @@ int aes_decrypt_ccm(    const BYTE      ciphertext[],
         end_of_buf = AES_BLOCK_SIZE;
 
         // Format the Associated Data into the authentication buffer.
-        ccm_format_assoc_data(buf, &end_of_buf, assoc, assoc_len);
+        ccm_format_assoc_data(  buf,
+                                &end_of_buf,
+                                assoc,
+                                assoc_len);
 
         // Format the Payload into the authentication buffer.
-        ccm_format_payload_data(buf, &end_of_buf, plaintext, *plaintext_len);
+        ccm_format_payload_data(buf,
+                                &end_of_buf,
+                                plaintext,
+                                *plaintext_len);
 
         // Perform the CBC operation with an IV of zeros on
         // the formatted buffer to calculate the MAC.
@@ -970,8 +981,9 @@ void AddRoundKey(BYTE state[][4], const WORD w[])
 // (Inv)SubBytes
 /////////////////
 
-// Performs the SubBytes step. All bytes in the state are substituted with a
-// pre-calculated value from a lookup table.
+// Performs the SubBytes step.
+// All bytes in the state are substituted with
+// a pre-calculated value from a lookup table.
 void SubBytes(BYTE state[][4])
 {
     state[0][0] = aes_sbox[state[0][0] >> 4][state[0][0] & 0x0F];
@@ -1274,9 +1286,10 @@ void aes_encrypt(   const BYTE  in[],
     // Copy input array (should be 16 bytes long) to a matrix
     // (sequential bytes are ordered by row, not col) called
     // "state" for processing.
-    // *** Implementation note: The official AES documentation
-    // references the state by column, then row. Accessing an
-    // element in C requires row then column.
+    // *** Implementation note:
+    // The official AES documentation references the state
+    // by column, then row.
+    // Accessing an element in C requires row then column.
     // Thus, all state references in AES must have the column
     // and row indexes reversed for C implementation.
     state[0][0] = in[0 ];
@@ -1296,7 +1309,8 @@ void aes_encrypt(   const BYTE  in[],
     state[2][3] = in[14];
     state[3][3] = in[15];
 
-    // Perform the necessary number of rounds. The round key is added first.
+    // Perform the necessary number of rounds.
+    // The round key is added first.
     // The last round does not perform the MixColumns step.
     AddRoundKey(state,&key[0]);
     SubBytes(state);
@@ -1416,7 +1430,8 @@ void aes_decrypt(   const BYTE  in[],
     state[2][3] = in[14];
     state[3][3] = in[15];
 
-    // Perform the necessary number of rounds. The round key is added first.
+    // Perform the necessary number of rounds.
+    // The round key is added first.
     // The last round does not perform the MixColumns step.
     if (keysize > 128) {
         if (keysize > 192) {
