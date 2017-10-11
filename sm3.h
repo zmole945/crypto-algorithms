@@ -1,9 +1,9 @@
 /**
  * \file sm3.h
  * thanks to Xyssl \n
- * SM3 standards:http://www.oscca.gov.cn/News/201012/News_1199.htm \n
- * author:goldboar \n
- * email:goldboar@163.com \n
+ * SM3 standards: http://www.oscca.gov.cn/News/201012/News_1199.htm \n
+ * author: goldboar \n
+ * email: goldboar@163.com \n
  * 2011-10-26
  */
 #ifndef XYSSL_SM3_H
@@ -40,17 +40,20 @@ void sm3_starts( sm3_context *ctx );
  * \brief          SM3 process buffer
  *
  * \param ctx      SM3 context
- * \param input    buffer holding the  data
+ * \param input    buffer holding the data
  * \param ilen     length of the input data
  */
-void sm3_update( sm3_context *ctx, unsigned char *input, int ilen );
+void sm3_update(sm3_context     *ctx,
+                unsigned char   *input,
+                int             ilen);
 
 /**
  * \brief          SM3 final digest
  *
  * \param ctx      SM3 context
  */
-void sm3_finish( sm3_context *ctx, unsigned char output[32] );
+void sm3_finish(sm3_context     *ctx,
+                unsigned char   output[32]);
 
 /**
  * \brief          Output = SM3( input buffer )
@@ -59,8 +62,9 @@ void sm3_finish( sm3_context *ctx, unsigned char output[32] );
  * \param ilen     length of the input data
  * \param output   SM3 checksum result
  */
-void sm3( unsigned char *input, int ilen,
-           unsigned char output[32]);
+void sm3(   unsigned char   *input,
+            int             ilen,
+            unsigned char   output[32]);
 
 /**
  * \brief          Output = SM3( file contents )
@@ -71,7 +75,8 @@ void sm3( unsigned char *input, int ilen,
  * \return         0 if successful, 1 if fopen failed,
  *                 or 2 if fread failed
  */
-int sm3_file( char *path, unsigned char output[32] );
+int sm3_file(   char            *path,
+                unsigned char   output[32]);
 
 /**
  * \brief          SM3 HMAC context setup
@@ -80,7 +85,9 @@ int sm3_file( char *path, unsigned char output[32] );
  * \param key      HMAC secret key
  * \param keylen   length of the HMAC key
  */
-void sm3_hmac_starts( sm3_context *ctx, unsigned char *key, int keylen);
+void sm3_hmac_starts(   sm3_context     *ctx,
+                        unsigned char   *key,
+                        int             keylen);
 
 /**
  * \brief          SM3 HMAC process buffer
@@ -89,7 +96,9 @@ void sm3_hmac_starts( sm3_context *ctx, unsigned char *key, int keylen);
  * \param input    buffer holding the  data
  * \param ilen     length of the input data
  */
-void sm3_hmac_update( sm3_context *ctx, unsigned char *input, int ilen );
+void sm3_hmac_update(   sm3_context     *ctx,
+                        unsigned char   *input,
+                        int             ilen);
 
 /**
  * \brief          SM3 HMAC final digest
@@ -97,7 +106,8 @@ void sm3_hmac_update( sm3_context *ctx, unsigned char *input, int ilen );
  * \param ctx      HMAC context
  * \param output   SM3 HMAC checksum result
  */
-void sm3_hmac_finish( sm3_context *ctx, unsigned char output[32] );
+void sm3_hmac_finish(   sm3_context     *ctx,
+                        unsigned char   output[32]);
 
 /**
  * \brief          Output = HMAC-SM3( hmac key, input buffer )
@@ -108,9 +118,11 @@ void sm3_hmac_finish( sm3_context *ctx, unsigned char output[32] );
  * \param ilen     length of the input data
  * \param output   HMAC-SM3 result
  */
-void sm3_hmac( unsigned char *key, int keylen,
-                unsigned char *input, int ilen,
-                unsigned char output[32] );
+void sm3_hmac(  unsigned char   *key,
+                int             keylen,
+                unsigned char   *input,
+                int             ilen,
+                unsigned char   output[32]);
 
 
 #ifdef __cplusplus
@@ -118,3 +130,4 @@ void sm3_hmac( unsigned char *key, int keylen,
 #endif
 
 #endif /* sm3.h */
+
