@@ -35,7 +35,7 @@ typedef unsigned char BYTE;
 typedef unsigned int  WORD;
 
 /**
- * \struct SHA256_CTX
+ * \struct sha256_ctx_t
  * \brief  定義SHA256摘要算法上下文機構體
  */
 typedef struct {
@@ -43,37 +43,37 @@ typedef struct {
     WORD datalen;
     unsigned long long bitlen;
     WORD state[8];
-} SHA256_CTX;
+} sha256_ctx_t;
 
 /*********************** FUNCTION DECLARATIONS **********************/
+/**
+ * \brief
+ *      sha256 摘要算法初始化
+ * \param ctx   算法上下文，包含算法相關參數，中間結果等
+ * \return      初始化是否成功，成功返回0
+ */
+int sha256_init(sha256_ctx_t *ctx);
+ 
+/**
+ * \brief
+ *      摘要算法更新分組計算結果
+ * \param ctx    算法上下文，包含算法相關參數，中間結果等
+ * \param data   分組數據
+ * \param len    分組數據長度
+ * \return       更新分組是否成功，成功返回0
+ */
+int sha256_update(  sha256_ctx_t    *ctx,
+                    const BYTE      data[],
+                    size_t          len);
 
-//=================================================
-/// -
-/// sha256 摘要算法初始化
-/// @param ctx    算法上下文，包含算法相關參數，中間結果等
-/// @return       des result good/bad
-/// -
-void sha256_init(SHA256_CTX *ctx);
-
-//=================================================
-/// -
-/// sha256 摘要加密算法更新分組計算結果
-/// @param ctx    算法上下文，包含算法相關參數，中間結果等
-/// @param data   分組數據
-/// @param len    分組數據長度
-/// @return       des result good/bad
-/// -
-void sha256_update( SHA256_CTX  *ctx,
-                    const BYTE  data[],
-                    size_t      len);
-
-//=================================================
-/// -
-/// sha256 摘要加密算法結果輸出
-/// @param ctx    算法上下文，包含算法相關參數，中間結果等
-/// @param hash   摘要算法結果哈希數
-/// @return       des result good/bad
-/// -
-void sha256_final(SHA256_CTX *ctx, BYTE hash[]);
+/**
+ * \brief
+ *      摘要算法結果輸出
+ * \param ctx    算法上下文，包含算法相關參數，中間結果等
+ * \param hash   摘要算法結果哈希數
+ * \return       算法輸出結果是否成功，成功返回0
+ */
+int sha256_final(   sha256_ctx_t    *ctx,
+                    BYTE            hash[]);
 
 #endif   // _SH256_H_

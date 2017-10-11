@@ -40,7 +40,7 @@ int sha256_test()
         0x04,0x6d,0x39,0xcc,0xc7,0x11,0x2c,0xd0};
 
     BYTE buf[SHA256_BLOCK_SIZE];
-    SHA256_CTX ctx;
+    sha256_ctx_t ctx;
     int idx;
     int pass = 1;
 

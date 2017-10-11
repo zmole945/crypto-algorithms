@@ -49,7 +49,7 @@ static const WORD k[64] = {
 };
 
 /*********************** FUNCTION DEFINITIONS ***********************/
-void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
+void sha256_transform(sha256_ctx_t *ctx, const BYTE data[])
 {
     WORD a, b, c, d, e, f, g, h, i, j, t1, t2, m[64];
 
@@ -94,7 +94,7 @@ void sha256_transform(SHA256_CTX *ctx, const BYTE data[])
     ctx->state[7] += h;
 }
 
-void sha256_init(SHA256_CTX *ctx)
+int sha256_init(sha256_ctx_t *ctx)
 {
     ctx->datalen  = 0;
     ctx->bitlen   = 0;
@@ -107,9 +107,11 @@ void sha256_init(SHA256_CTX *ctx)
     ctx->state[5] = 0x9b05688c;
     ctx->state[6] = 0x1f83d9ab;
     ctx->state[7] = 0x5be0cd19;
+
+    return 0;
 }
 
-void sha256_update( SHA256_CTX  *ctx,
+int sha256_update( sha256_ctx_t  *ctx,
                     const BYTE  data[],
                     size_t      len)
 {
@@ -124,9 +126,11 @@ void sha256_update( SHA256_CTX  *ctx,
             ctx->datalen = 0;
         }
     }
+
+    return 0;
 }
 
-void sha256_final(SHA256_CTX *ctx, BYTE hash[])
+int sha256_final(sha256_ctx_t *ctx, BYTE hash[])
 {
     WORD i;
 
@@ -174,5 +178,7 @@ void sha256_final(SHA256_CTX *ctx, BYTE hash[])
         hash[i + 24] = (ctx->state[6] >> (24 - i * 8)) & 0x000000ff;
         hash[i + 28] = (ctx->state[7] >> (24 - i * 8)) & 0x000000ff;
     }
+
+    return 0;
 }
 

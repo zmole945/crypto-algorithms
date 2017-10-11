@@ -43,7 +43,7 @@ int sha1_test()
         0x65,0x34,0x01,0x6f};
     BYTE buf[SHA1_BLOCK_SIZE];
     int idx;
-    SHA1_CTX ctx;
+    sha1_ctx_t ctx;
     int pass = 1;
 
     sha1_init(&ctx);

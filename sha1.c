@@ -18,7 +18,7 @@
 #define ROTLEFT(a, b) ((a << b) | (a >> (32 - b)))
 
 /*********************** FUNCTION DEFINITIONS ***********************/
-void sha1_transform(SHA1_CTX *ctx, const BYTE data[])
+void sha1_transform(sha1_ctx_t *ctx, const BYTE data[])
 {
     WORD a, b, c, d, e, i, j, t, m[80];
 
@@ -75,7 +75,7 @@ void sha1_transform(SHA1_CTX *ctx, const BYTE data[])
     ctx->state[4] += e;
 }
 
-int sha1_init(SHA1_CTX *ctx)
+int sha1_init(sha1_ctx_t *ctx)
 {
     ctx->datalen = 0;
     ctx->bitlen = 0;
@@ -88,9 +88,11 @@ int sha1_init(SHA1_CTX *ctx)
     ctx->k[1] = 0x6ed9eba1;
     ctx->k[2] = 0x8f1bbcdc;
     ctx->k[3] = 0xca62c1d6;
+
+    return 0;
 }
 
-int sha1_update(SHA1_CTX *ctx, const BYTE data[], size_t len)
+int sha1_update(sha1_ctx_t *ctx, const BYTE data[], size_t len)
 {
     size_t i;
 
@@ -103,9 +105,11 @@ int sha1_update(SHA1_CTX *ctx, const BYTE data[], size_t len)
             ctx->datalen = 0;
         }
     }
+
+    return 0;
 }
 
-int sha1_final(SHA1_CTX *ctx, BYTE hash[])
+int sha1_final(sha1_ctx_t *ctx, BYTE hash[])
 {
     WORD i;
 
@@ -146,4 +150,6 @@ int sha1_final(SHA1_CTX *ctx, BYTE hash[])
         hash[i + 12] = (ctx->state[3] >> (24 - i * 8)) & 0x000000ff;
         hash[i + 16] = (ctx->state[4] >> (24 - i * 8)) & 0x000000ff;
     }
+
+    return 0;
 }

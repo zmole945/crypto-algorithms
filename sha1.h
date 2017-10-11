@@ -36,7 +36,7 @@ typedef unsigned char BYTE;
 typedef unsigned int  WORD;
 
 /**
- * \struct SHA1_CTX
+ * \struct sha1_ctx_t
  * \brief  定義SHA1摘要算法上下文機構體
  */
 typedef struct {
@@ -45,7 +45,7 @@ typedef struct {
     unsigned long long bitlen;
     WORD state[5];
     WORD k[4];
-} SHA1_CTX;
+} sha1_ctx_t;
 
 /*********************** FUNCTION DECLARATIONS **********************/
 /**
@@ -55,7 +55,7 @@ typedef struct {
  * \param ctx    算法上下文，包含算法相關參數，中間結果等
  * \return       初始化是否成功，成功返回0
  */
-int sha1_init(SHA1_CTX *ctx);
+int sha1_init(sha1_ctx_t *ctx);
 
 /**
  * \brief
@@ -65,9 +65,9 @@ int sha1_init(SHA1_CTX *ctx);
  * \param len    分組數據長度
  * \return       更新分組是否成功，成功返回0
  */
-int sha1_update(   SHA1_CTX    *ctx,
-                    const BYTE  data[],
-                    size_t      len);
+int sha1_update(sha1_ctx_t  *ctx,
+                const BYTE  data[],
+                size_t      len);
 
 /**
  * \brief
@@ -76,6 +76,7 @@ int sha1_update(   SHA1_CTX    *ctx,
  * \param hash   摘要算法結果哈希數
  * \return       算法輸出結果是否成功，成功返回0
  */
-int sha1_final(SHA1_CTX *ctx, BYTE hash[]);
+int sha1_final(sha1_ctx_t   *ctx,
+               BYTE         hash[]);
 
 #endif   // _SHA1_H_
