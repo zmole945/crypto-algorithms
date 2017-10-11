@@ -1,24 +1,43 @@
-/*********************************************************************
- * Filename:   sha256.h
- * Author:     Brad Conte (brad AT bradconte.com)
- * Copyright:
- * Disclaimer: This code is presented "as is" without any guarantees.
- * Details:    Defines the API for the corresponding SHA1 implementation.
- *********************************************************************/
+/**
+ * \file   sha256.h
+ * \brief
+ *      SHA256摘要算法的C语言实现 \n
+ *
+ *      當前维护者：Shiz(zmole945@163.com) \n
+ *      感谢創建最初源碼的Brad Conte (brad AT bradconte.com)
+ */
 
-#ifndef SHA256_H
-#define SHA256_H
+#ifndef _SH256_H_
+#define _SH256_H_
 
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
 
 /****************************** MACROS ******************************/
-#define SHA256_BLOCK_SIZE 32    // SHA256輸出結果為32字節哈希數
+/**
+ * \def    SHA256_BLOCK_SIZE
+ * \brief
+ *       SHA256輸出結果為32字節哈希數
+ */
+#define SHA256_BLOCK_SIZE 32
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;     // 8-bit byte
-typedef unsigned int  WORD;     // 32-bit word, change to "long" for 16-bit machines
+/**
+ * \typedef BYTE
+ * \brief  定義8位數據類型
+ */
+typedef unsigned char BYTE;
 
+/**
+ * \typedef WORD
+ * \brief  定義32位數據類型,在16位機器上使用long代替int
+ */
+typedef unsigned int  WORD;
+
+/**
+ * \struct SHA256_CTX
+ * \brief  定義SHA256摘要算法上下文機構體
+ */
 typedef struct {
     BYTE data[64];
     WORD datalen;
@@ -57,5 +76,4 @@ void sha256_update( SHA256_CTX  *ctx,
 /// -
 void sha256_final(SHA256_CTX *ctx, BYTE hash[]);
 
-
-#endif   // SHA256_H
+#endif   // _SH256_H_
