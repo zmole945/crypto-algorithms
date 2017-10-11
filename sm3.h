@@ -14,7 +14,7 @@
 #define XYSSL_SM3_H
 
 /**
- *  \struct sm3_context
+ *  \struct sm3_ctx_t
  *  \brief  SM3摘要算法上下文結構體
  */
 typedef struct
@@ -27,7 +27,7 @@ typedef struct
     unsigned char opad[64];     /*!< HMAC: outer padding        */
 
 }
-sm3_context;
+sm3_ctx_t;
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,7 +38,7 @@ extern "C" {
  *
  * \param ctx   context to be initialized
  */
-void sm3_starts( sm3_context *ctx );
+int sm3_init( sm3_ctx_t *ctx );
 
 /**
  * \brief          SM3 process buffer
@@ -47,7 +47,7 @@ void sm3_starts( sm3_context *ctx );
  * \param input    buffer holding the data
  * \param ilen     length of the input data
  */
-void sm3_update(sm3_context     *ctx,
+int sm3_update( sm3_ctx_t       *ctx,
                 unsigned char   *input,
                 int             ilen);
 
@@ -56,7 +56,7 @@ void sm3_update(sm3_context     *ctx,
  *
  * \param ctx      SM3 context
  */
-void sm3_finish(sm3_context     *ctx,
+int sm3_final(  sm3_ctx_t       *ctx,
                 unsigned char   output[32]);
 
 /**

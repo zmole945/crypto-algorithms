@@ -46,18 +46,18 @@ static void test2(void)
     int ilen = 3;
     unsigned char output[32];
     int i;
-    sm3_context ctx;
+    sm3_ctx_t ctx;
 
     printf("Message:\n");
     for(i=0; i < 16; i++)
         printf("abcd");
     printf("\n");
 
-    sm3_starts( &ctx );
+    sm3_init( &ctx );
     for(i=0; i < 16; i++)
         sm3_update( &ctx, "abcd", 4 );
-    sm3_finish( &ctx, output );
-    memset( &ctx, 0, sizeof( sm3_context ) );
+    sm3_final( &ctx, output );
+    memset( &ctx, 0, sizeof( sm3_ctx_t ) );
 
     printf("Hash:\n   ");
     for(i=0; i<32; i++)

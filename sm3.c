@@ -46,7 +46,7 @@
 /*
  * SM3 context setup
  */
-void sm3_starts( sm3_context *ctx )
+int sm3_init( sm3_ctx_t *ctx )
 {
     ctx->total[0] = 0;
     ctx->total[1] = 0;
@@ -60,9 +60,10 @@ void sm3_starts( sm3_context *ctx )
     ctx->state[6] = 0xE38DEE4D;
     ctx->state[7] = 0xB0FB0E4E;
 
+    return 0;
 }
 
-static void sm3_process( sm3_context *ctx, unsigned char data[64] )
+static void sm3_process( sm3_ctx_t *ctx, unsigned char data[64] )
 {
     unsigned int SS1, SS2, TT1, TT2, W[68],W1[64];
     unsigned int A, B, C, D, E, F, G, H;
@@ -230,7 +231,7 @@ static void sm3_process( sm3_context *ctx, unsigned char data[64] )
 /*
  * SM3 process buffer
  */
-void sm3_update( sm3_context *ctx, unsigned char *input, int ilen )
+int sm3_update( sm3_ctx_t *ctx, unsigned char *input, int ilen )
 {
     int fill;
     unsigned long left;
@@ -269,6 +270,8 @@ void sm3_update( sm3_context *ctx, unsigned char *input, int ilen )
         memcpy( (void *) (ctx->buffer + left),
                 (void *) input, ilen );
     }
+
+    return 0;
 }
 
 static const unsigned char sm3_padding[64] =
@@ -282,7 +285,7 @@ static const unsigned char sm3_padding[64] =
 /*
  * SM3 final digest
  */
-void sm3_finish( sm3_context *ctx, unsigned char output[32] )
+int sm3_final( sm3_ctx_t *ctx, unsigned char output[32] )
 {
     unsigned long last, padn;
     unsigned long high, low;
@@ -309,6 +312,8 @@ void sm3_finish( sm3_context *ctx, unsigned char output[32] )
     PUT_ULONG_BE( ctx->state[5], output, 20 );
     PUT_ULONG_BE( ctx->state[6], output, 24 );
     PUT_ULONG_BE( ctx->state[7], output, 28 );
+
+    return 0;
 }
 
 /*
@@ -317,13 +322,13 @@ void sm3_finish( sm3_context *ctx, unsigned char output[32] )
 void sm3( unsigned char *input, int ilen,
            unsigned char output[32] )
 {
-    sm3_context ctx;
+    sm3_ctx_t ctx;
 
-    sm3_starts( &ctx );
+    sm3_init( &ctx );
     sm3_update( &ctx, input, ilen );
-    sm3_finish( &ctx, output );
+    sm3_final( &ctx, output );
 
-    memset( &ctx, 0, sizeof( sm3_context ) );
+    memset( &ctx, 0, sizeof( sm3_ctx_t ) );
 }
 
 /*
@@ -333,20 +338,20 @@ int sm3_file( char *path, unsigned char output[32] )
 {
     FILE *f;
     size_t n;
-    sm3_context ctx;
+    sm3_ctx_t ctx;
     unsigned char buf[1024];
 
     if( ( f = fopen( path, "rb" ) ) == NULL )
         return( 1 );
 
-    sm3_starts( &ctx );
+    sm3_init( &ctx );
 
     while( ( n = fread( buf, 1, sizeof( buf ), f ) ) > 0 )
         sm3_update( &ctx, buf, (int) n );
 
-    sm3_finish( &ctx, output );
+    sm3_final( &ctx, output );
 
-    memset( &ctx, 0, sizeof( sm3_context ) );
+    memset( &ctx, 0, sizeof( sm3_ctx_t ) );
 
     if( ferror( f ) != 0 )
     {
@@ -361,7 +366,7 @@ int sm3_file( char *path, unsigned char output[32] )
 /*
  * SM3 HMAC context setup
  */
-void sm3_hmac_starts( sm3_context *ctx, unsigned char *key, int keylen )
+void sm3_hmac_starts( sm3_ctx_t *ctx, unsigned char *key, int keylen )
 {
     int i;
     unsigned char sum[32];
@@ -383,7 +388,7 @@ void sm3_hmac_starts( sm3_context *ctx, unsigned char *key, int keylen )
         ctx->opad[i] = (unsigned char)( ctx->opad[i] ^ key[i] );
     }
 
-    sm3_starts( ctx);
+    sm3_init( ctx);
     sm3_update( ctx, ctx->ipad, 64 );
 
     memset( sum, 0, sizeof( sum ) );
@@ -392,7 +397,7 @@ void sm3_hmac_starts( sm3_context *ctx, unsigned char *key, int keylen )
 /*
  * SM3 HMAC process buffer
  */
-void sm3_hmac_update( sm3_context *ctx, unsigned char *input, int ilen )
+void sm3_hmac_update( sm3_ctx_t *ctx, unsigned char *input, int ilen )
 {
     sm3_update( ctx, input, ilen );
 }
@@ -400,7 +405,7 @@ void sm3_hmac_update( sm3_context *ctx, unsigned char *input, int ilen )
 /*
  * SM3 HMAC final digest
  */
-void sm3_hmac_finish( sm3_context *ctx, unsigned char output[32] )
+void sm3_hmac_finish( sm3_ctx_t *ctx, unsigned char output[32] )
 {
     int hlen;
     unsigned char tmpbuf[32];
@@ -408,11 +413,11 @@ void sm3_hmac_finish( sm3_context *ctx, unsigned char output[32] )
     //is224 = ctx->is224;
     hlen =  32;
 
-    sm3_finish( ctx, tmpbuf );
-    sm3_starts( ctx );
+    sm3_final( ctx, tmpbuf );
+    sm3_init( ctx );
     sm3_update( ctx, ctx->opad, 64 );
     sm3_update( ctx, tmpbuf, hlen );
-    sm3_finish( ctx, output );
+    sm3_final( ctx, output );
 
     memset( tmpbuf, 0, sizeof( tmpbuf ) );
 }
@@ -424,13 +429,13 @@ void sm3_hmac( unsigned char *key, int keylen,
                 unsigned char *input, int ilen,
                 unsigned char output[32] )
 {
-    sm3_context ctx;
+    sm3_ctx_t ctx;
 
     sm3_hmac_starts( &ctx, key, keylen);
     sm3_hmac_update( &ctx, input, ilen );
     sm3_hmac_finish( &ctx, output );
 
-    memset( &ctx, 0, sizeof( sm3_context ) );
+    memset( &ctx, 0, sizeof( sm3_ctx_t ) );
 }
 
 
