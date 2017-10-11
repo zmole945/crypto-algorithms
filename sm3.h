@@ -1,9 +1,9 @@
 /**
  * \file sm3.h
- * thanks to Xyssl
- * SM3 standards:http://www.oscca.gov.cn/News/201012/News_1199.htm
- * author:goldboar
- * email:goldboar@163.com
+ * thanks to Xyssl \n
+ * SM3 standards:http://www.oscca.gov.cn/News/201012/News_1199.htm \n
+ * author:goldboar \n
+ * email:goldboar@163.com \n
  * 2011-10-26
  */
 #ifndef XYSSL_SM3_H
