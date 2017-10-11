@@ -13,11 +13,18 @@
 #include <stddef.h>
 
 /****************************** MACROS ******************************/
-#define AES_BLOCK_SIZE 16               // AES operates on 16 bytes at a time
+#define AES_BLOCK_SIZE 16
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;            // 8-bit byte
-typedef unsigned int WORD;             // 32-bit word, change to "long" for 16-bit machines
+/*! \typedef BYTE
+    \brief  定義8位數據類型
+*/
+typedef unsigned char BYTE;
+
+/*! \typedef WORD
+    \brief  定義32位數據類型,在16位機器上使用long代替int
+*/
+typedef unsigned int WORD;
 
 /*********************** FUNCTION DECLARATIONS **********************/
 ///////////////////

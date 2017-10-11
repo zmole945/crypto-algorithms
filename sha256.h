@@ -13,11 +13,11 @@
 #include <stddef.h>
 
 /****************************** MACROS ******************************/
-#define SHA256_BLOCK_SIZE 32            // SHA256 outputs a 32 byte digest
+#define SHA256_BLOCK_SIZE 32    // SHA256輸出結果為32字節哈希數
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;             // 8-bit byte
-typedef unsigned int  WORD;             // 32-bit word, change to "long" for 16-bit machines
+typedef unsigned char BYTE;     // 8-bit byte
+typedef unsigned int  WORD;     // 32-bit word, change to "long" for 16-bit machines
 
 typedef struct {
     BYTE data[64];
@@ -52,7 +52,7 @@ void sha256_update( SHA256_CTX  *ctx,
 /// -
 /// sha256 摘要加密算法結果輸出
 /// @param ctx    算法上下文，包含算法相關參數，中間結果等
-/// @param hash   摘要算法結果哈係數
+/// @param hash   摘要算法結果哈希數
 /// @return       des result good/bad
 /// -
 void sha256_final(SHA256_CTX *ctx, BYTE hash[]);

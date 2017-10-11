@@ -13,12 +13,25 @@
 #include <stddef.h>
 
 /****************************** MACROS ******************************/
-#define SHA1_BLOCK_SIZE 20              // SHA1 outputs a 20 byte digest
+/*! \def SHA1_BLOCK_SIZE
+    \brief SHA1輸出結果為20字節哈希數
+*/
+#define SHA1_BLOCK_SIZE 20
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;             // 8-bit byte
-typedef unsigned int  WORD;             // 32-bit word, change to "long" for 16-bit machines
+/*! \typedef BYTE
+    \brief  定義8位數據類型
+*/
+typedef unsigned char BYTE;
 
+/*! \typedef WORD
+    \brief  定義32位數據類型,在16位機器上使用long代替int
+*/
+typedef unsigned int  WORD;
+
+/*! \struct SHA1_CTX
+    \brief  定義SHA1摘要算法上下文機構體
+*/
 typedef struct {
     BYTE data[64];
     WORD datalen;
@@ -53,7 +66,7 @@ void sha1_update(   SHA1_CTX    *ctx,
 /// -
 /// sha1 摘要加密算法結果輸出
 /// @param ctx    算法上下文，包含算法相關參數，中間結果等
-/// @param hash   摘要算法結果哈係數
+/// @param hash   摘要算法結果哈希數
 /// @return       des result good/bad
 /// -
 void sha1_final(SHA1_CTX *ctx, BYTE hash[]);
