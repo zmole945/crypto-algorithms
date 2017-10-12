@@ -319,7 +319,7 @@ int sm3_final( sm3_ctx_t *ctx, unsigned char output[32] )
 /*
  * output = SM3( input buffer )
  */
-void sm3( unsigned char *input, int ilen,
+int sm3( unsigned char *input, int ilen,
            unsigned char output[32] )
 {
     sm3_ctx_t ctx;
@@ -329,6 +329,8 @@ void sm3( unsigned char *input, int ilen,
     sm3_final( &ctx, output );
 
     memset( &ctx, 0, sizeof( sm3_ctx_t ) );
+
+    return 0;
 }
 
 /*
@@ -437,10 +439,4 @@ void sm3_hmac( unsigned char *key, int keylen,
 
     memset( &ctx, 0, sizeof( sm3_ctx_t ) );
 }
-
-
-
-
-
-
 

@@ -13,6 +13,11 @@
 #ifndef XYSSL_SM3_H
 #define XYSSL_SM3_H
 
+/*************************** HEADER FILES ***************************/
+
+/****************************** MACROS ******************************/
+
+/**************************** DATA TYPES ****************************/
 /**
  *  \struct sm3_ctx_t
  *  \brief  SM3摘要算法上下文結構體
@@ -33,42 +38,58 @@ sm3_ctx_t;
 extern "C" {
 #endif
 
+/*********************** FUNCTION DECLARATIONS **********************/
 /**
- * \brief       SM3 context setup
+ * \brief
+ *      SM3摘要算法初始化
  *
- * \param ctx   context to be initialized
+ * \param ctx   算法上下文數據結構
+ *
+ * \return      初始化是否成功，成功返回0
  */
 int sm3_init( sm3_ctx_t *ctx );
 
 /**
- * \brief          SM3 process buffer
+ * \brief
+ *      SM3摘要算法更新分組計算結果
  *
- * \param ctx      SM3 context
- * \param input    buffer holding the data
- * \param ilen     length of the input data
+ * \param ctx       SM3算法上下文數據結構
+ * \param input     輸入數據首地址
+ * \param ilen      輸入數據長度(字節)
+ *
+ * \return          更新分組是否成功，成功返回0
  */
 int sm3_update( sm3_ctx_t       *ctx,
                 unsigned char   *input,
                 int             ilen);
 
 /**
- * \brief          SM3 final digest
+ * \brief
+ *      SM3摘要算法輸出計算的結果
  *
- * \param ctx      SM3 context
+ * \param ctx       SM3算法上下文數據結構
+ * \param output    摘要算法結果哈希數
+ *
+ * \return          算法輸出結果是否成功，成功返回0
  */
 int sm3_final(  sm3_ctx_t       *ctx,
                 unsigned char   output[32]);
 
 /**
- * \brief          Output = SM3( input buffer )
+ * \brief
+ *      SM3摘要算法完整封裝 \n
+ *      包含初始化，更新分組，輸出結果整個算法流程
  *
- * \param input    buffer holding the  data
- * \param ilen     length of the input data
- * \param output   SM3 checksum result
+ * \param input     輸入數據首地址
+ * \param ilen      輸入數據長度(字節)
+ * \param output    摘要算法結果哈希數
+ *
+ * \return          算法運行是否成功，成功返回0
  */
-void sm3(   unsigned char   *input,
-            int             ilen,
-            unsigned char   output[32]);
+
+int sm3(unsigned char   *input,
+        int             ilen,
+        unsigned char   output[32]);
 
 #ifdef __cplusplus
 }

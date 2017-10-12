@@ -37,9 +37,13 @@ typedef struct {
 } sha256_ctx_t;
 
 /*********************** FUNCTION DECLARATIONS **********************/
+#ifdef __cplusplus
+extern "C" {
+#endif
 /**
  * \brief
- *      sha256 摘要算法初始化
+ *      SHA256摘要算法初始化
+ *
  * \param ctx   算法上下文，包含算法相關參數，中間結果等
  * \return      初始化是否成功，成功返回0
  */
@@ -48,9 +52,11 @@ int sha256_init(sha256_ctx_t *ctx);
 /**
  * \brief
  *      摘要算法更新分組計算結果
+ *
  * \param ctx    算法上下文，包含算法相關參數，中間結果等
  * \param data   分組數據
  * \param len    分組數據長度
+ *
  * \return       更新分組是否成功，成功返回0
  */
 int sha256_update(  sha256_ctx_t    *ctx,
@@ -60,11 +66,16 @@ int sha256_update(  sha256_ctx_t    *ctx,
 /**
  * \brief
  *      摘要算法結果輸出
+ *
  * \param ctx    算法上下文，包含算法相關參數，中間結果等
  * \param hash   摘要算法結果哈希數
+ *
  * \return       算法輸出結果是否成功，成功返回0
  */
 int sha256_final(   sha256_ctx_t    *ctx,
                     BYTE            hash[]);
+#ifdef __cplusplus
+}
+#endif
 
 #endif   // _SH256_H_
