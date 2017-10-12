@@ -15,9 +15,21 @@
 #include <stdio.h>
 #include <memory.h>
 #include <string.h>
+
 #include "sha1.h"
 
+#include "cryptoalg_debug.h"
+
 /*********************** FUNCTION DEFINITIONS ***********************/
+int sha1_test();
+
+int main()
+{
+    printf("SHA1 tests: %s\n", sha1_test() ? "SUCCEEDED" : "FAILED");
+
+    return(0);
+}
+
 int sha1_test()
 {
     BYTE text1[] = {"abc"};
@@ -65,9 +77,3 @@ int sha1_test()
     return(pass);
 }
 
-int main()
-{
-    printf("SHA1 tests: %s\n", sha1_test() ? "SUCCEEDED" : "FAILED");
-
-    return(0);
-}
