@@ -1,28 +1,24 @@
-/*********************************************************************
-* Filename:   des.h
-* Author:     Brad Conte (brad AT bradconte.com)
-* Copyright:
-* Disclaimer: This code is presented "as is" without any guarantees.
-* Details:    Defines the API for the corresponding DES implementation.
-              Note that encryption and decryption are defined by how
-              the key setup is performed, the actual en/de-cryption is
-              performed by the same function.
-*********************************************************************/
+/**
+ * \file   des.h
+ * \brief
+ *       des對稱加密算法算法的C语言实现 \n
+ *
+ *       當前维护者：Shiz(zmole945@163.com) \n
+ *       感谢創建最初源碼的Brad Conte (brad AT bradconte.com)
+ */
 
 #ifndef DES_H
 #define DESH
 
 /*************************** HEADER FILES ***************************/
-#include <stddef.h>
 #include <stdint.h>
+
+#include "cryptoalg_data_type.h"
 
 /****************************** MACROS ******************************/
 #define DES_BLOCK_SIZE 8    /// DES operates on 8 bytes at a time
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE; /// 8-bit byte
-typedef unsigned int  WORD; /// 32-bit word, change to "long" for 16-bit machines
-
 typedef enum {
     DES_ENCRYPT,
     DES_DECRYPT,

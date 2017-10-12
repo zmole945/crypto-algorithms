@@ -1,43 +1,77 @@
-/*********************************************************************
-* Filename:   aes.h
-* Author:     Brad Conte (brad AT bradconte.com)
-* Copyright:
-* Disclaimer: This code is presented "as is" without any guarantees.
-* Details:    Defines the API for the corresponding AES implementation.
-*********************************************************************/
+/**
+ * \file   aes.h
+ * \brief
+ *       aes對稱加密算法算法的C语言实现 \n
+ *
+ *       當前维护者：Shiz(zmole945@163.com) \n
+ *       感谢創建最初源碼的Brad Conte (brad AT bradconte.com)
+ */
 
 #ifndef AES_H
 #define AES_H
 
 /*************************** HEADER FILES ***************************/
-#include <stddef.h>
+#include <stdint.h>
 
 #include "cryptoalg_data_type.h"
 
 /****************************** MACROS ******************************/
+/**
+ * \def    AES_BLOCK_SIZE
+ * \brief
+ *       AES加密算法單個分組大小16字節
+ */
 #define AES_BLOCK_SIZE 16
 
 /**************************** DATA TYPES ****************************/
 
 
 /*********************** FUNCTION DECLARATIONS **********************/
-///////////////////
-// AES
-///////////////////
-// Key setup must be done before any AES en/de-cryption functions can be used.
-void aes_key_setup(const BYTE key[],          // The key, must be 128, 192, or 256 bits
-                   WORD w[],                  // Output key schedule to be used later
-                   int keysize);              // Bit length of the key, 128, 192, or 256
+/**
+ * \brief
+ *      AES密鑰初始化，加密前需要完成該設置
+ *
+ * \param key       密鑰首地址，只接受128,192或256位的密鑰
+ * \param w         計算出的key schedule加密時使用
+ * \param keysize   密鑰位數，可以取128,192,256
+ *
+ * \return          初始化是否成功，成功返回0
+ */
+void aes_key_setup(const BYTE   key[],
+                   WORD         w[],
+                   int          keysize);
 
-void aes_encrypt(const BYTE in[],             // 16 bytes of plaintext
-                 BYTE out[],                  // 16 bytes of ciphertext
-                 const WORD key[],            // From the key setup
-                 int keysize);                // Bit length of the key, 128, 192, or 256
+/**
+ * \brief
+ *      AES單個分組加密
+ *
+ * \param in        明文數據輸入首地址，明文長度16字節
+ * \param out       密文結果輸出首地址，密文長度16字節
+ * \param key       密鑰初始化時，計算出的key schedule
+ * \param keysize   密鑰位數，可以取128,192,256
+ *
+ * \return          加密是否成功，成功返回0
+ */
+void aes_encrypt(const BYTE     in[],
+                 BYTE           out[],
+                 const WORD     key[],
+                 int            keysize);
 
-void aes_decrypt(const BYTE in[],             // 16 bytes of ciphertext
-                 BYTE out[],                  // 16 bytes of plaintext
-                 const WORD key[],            // From the key setup
-                 int keysize);                // Bit length of the key, 128, 192, or 256
+/**
+ * \brief
+ *      AES單個分組解密
+ *
+ * \param in        密文數據輸入首地址，密文長度16字節
+ * \param out       明文結果輸出首地址，明文長度16字節
+ * \param key       密鑰初始化時，計算出的key schedule
+ * \param keysize   密鑰位數，可以取128,192,256
+ *
+ * \return          解密是否成功，成功返回0
+ */
+void aes_decrypt(const BYTE     in[],
+                 BYTE           out[],
+                 const WORD     key[],
+                 int            keysize);
 
 ///////////////////
 // AES - CBC

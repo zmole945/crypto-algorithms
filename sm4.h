@@ -1,6 +1,12 @@
 /**
- * \file sm4.h
+ * \file   sm4.h
+ * \brief
+ *       sm4對稱加密算法算法的C语言实现 \n
+ *
+ *       當前维护者：Shiz(zmole945@163.com) \n
+ *       感谢創建最初源碼的xyssl以及goldboar(goldboar@163.com)
  */
+
 #ifndef XYSSL_SM4_H
 #define XYSSL_SM4_H
 
