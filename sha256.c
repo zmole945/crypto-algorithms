@@ -111,9 +111,9 @@ int sha256_init(sha256_ctx_t *ctx)
     return 0;
 }
 
-int sha256_update( sha256_ctx_t  *ctx,
-                    const BYTE  data[],
-                    size_t      len)
+int sha256_update(  sha256_ctx_t    *ctx,
+                    const uint8_t   data[],
+                    size_t          len)
 {
     WORD i;
 
@@ -130,7 +130,8 @@ int sha256_update( sha256_ctx_t  *ctx,
     return 0;
 }
 
-int sha256_final(sha256_ctx_t *ctx, BYTE hash[])
+int sha256_final(   sha256_ctx_t    *ctx,
+                    uint8_t         hash[])
 {
     WORD i;
 

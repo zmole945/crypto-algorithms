@@ -1,4 +1,14 @@
 
+//Testing data from SM3 Standards
+//http://www.oscca.gov.cn/News/201012/News_1199.htm 
+// Sample 1
+// Input:"abc"  
+// Output:66c7f0f4 62eeedd9 d1f2d46b dc10e4e2 4167c487 5cf2f7a2 297da02b 8f4ba8e0
+
+// Sample 2 
+// Input:"abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd"
+// Outpuf:debe9ff9 2275b8a1 38604889 c18e5a4d 6fdb70e5 387e5765 293dcba3 9c0c5732
+
 #include <string.h>
 #include <stdio.h>
 #include "sm3.h"
@@ -28,7 +38,7 @@ static void test1(void)
     printf("Message:\n");
     printf("%s\n",input);
 
-    sm3(input, ilen, output);
+    sm3_alg(input, ilen, output);
 
     printf("Hash:\n   ");
     for(i=0; i<32; i++)
@@ -77,7 +87,7 @@ static void test_msg(void)
     printf("Message:\n");
     printf("%s\n", msg);
 
-    sm3(msg, strlen(msg), output);
+    sm3_alg(msg, strlen(msg), output);
     printf("Hash:\n   ");
     for(i=0; i<32; i++)
     {

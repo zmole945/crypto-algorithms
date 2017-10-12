@@ -1,20 +1,14 @@
-/*
- * SM3 Hash alogrith 
- * thanks to Xyssl
- * author:goldboar
- * email:goldboar@163.com
- * 2011-10-26
+/**
+ *  \file   sm3.c
+ *  \brief
+ *      SM3摘要算法的C语言实现 \n
+ *
+ *      SM3標準：\n
+ *      http://www.oscca.gov.cn/News/201012/News_1199.htm \n
+ *
+ *      當前维护者：Shiz(zmole945@163.com) \n
+ *      感谢創建最初源碼的xyssl以及goldboar(goldboar@163.com)
  */
-
-//Testing data from SM3 Standards
-//http://www.oscca.gov.cn/News/201012/News_1199.htm 
-// Sample 1
-// Input:"abc"  
-// Output:66c7f0f4 62eeedd9 d1f2d46b dc10e4e2 4167c487 5cf2f7a2 297da02b 8f4ba8e0
-
-// Sample 2 
-// Input:"abcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd"
-// Outpuf:debe9ff9 2275b8a1 38604889 c18e5a4d 6fdb70e5 387e5765 293dcba3 9c0c5732
 
 #include "sm3.h"
 #include <string.h>
@@ -231,7 +225,9 @@ static void sm3_process( sm3_ctx_t *ctx, unsigned char data[64] )
 /*
  * SM3 process buffer
  */
-int sm3_update( sm3_ctx_t *ctx, unsigned char *input, int ilen )
+int sm3_update( sm3_ctx_t   *ctx,
+                uint8_t     *input,
+                uint32_t    ilen)
 {
     int fill;
     unsigned long left;
@@ -285,7 +281,8 @@ static const unsigned char sm3_padding[64] =
 /*
  * SM3 final digest
  */
-int sm3_final( sm3_ctx_t *ctx, unsigned char output[32] )
+int sm3_final(  sm3_ctx_t   *ctx,
+                uint8_t     output[32])
 {
     unsigned long last, padn;
     unsigned long high, low;
@@ -319,8 +316,9 @@ int sm3_final( sm3_ctx_t *ctx, unsigned char output[32] )
 /*
  * output = SM3( input buffer )
  */
-int sm3( unsigned char *input, int ilen,
-           unsigned char output[32] )
+int sm3_alg(uint8_t     *input,
+            uint32_t    ilen,
+            uint8_t     output[32])
 {
     sm3_ctx_t ctx;
 
@@ -375,7 +373,7 @@ void sm3_hmac_starts( sm3_ctx_t *ctx, unsigned char *key, int keylen )
 
     if( keylen > 64 )
     {
-        sm3( key, keylen, sum );
+        sm3_alg( key, keylen, sum );
         keylen = 32;
 		//keylen = ( is224 ) ? 28 : 32;
         key = sum;

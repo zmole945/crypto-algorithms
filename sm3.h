@@ -14,23 +14,24 @@
 #define XYSSL_SM3_H
 
 /*************************** HEADER FILES ***************************/
+#include <stdint.h>
 
 /****************************** MACROS ******************************/
 
 /**************************** DATA TYPES ****************************/
 /**
  *  \struct sm3_ctx_t
- *  \brief  SM3摘要算法上下文結構體
+ *  \brief
+ *      SM3摘要算法上下文結構體
  */
 typedef struct
 {
-    unsigned long total[2];     /*!< number of bytes processed  */
-    unsigned long state[8];     /*!< intermediate digest state  */
-    unsigned char buffer[64];   /*!< data block being processed */
+    uint32_t    total[2];
+    uint32_t    state[8];
+    uint8_t     buffer[64];
 
-    unsigned char ipad[64];     /*!< HMAC: inner padding        */
-    unsigned char opad[64];     /*!< HMAC: outer padding        */
-
+    uint8_t     ipad[64];
+    uint8_t     opad[64];
 }
 sm3_ctx_t;
 
@@ -59,9 +60,9 @@ int sm3_init( sm3_ctx_t *ctx );
  *
  * \return          更新分組是否成功，成功返回0
  */
-int sm3_update( sm3_ctx_t       *ctx,
-                unsigned char   *input,
-                int             ilen);
+int sm3_update( sm3_ctx_t   *ctx,
+                uint8_t     *input,
+                uint32_t    ilen);
 
 /**
  * \brief
@@ -72,8 +73,8 @@ int sm3_update( sm3_ctx_t       *ctx,
  *
  * \return          算法輸出結果是否成功，成功返回0
  */
-int sm3_final(  sm3_ctx_t       *ctx,
-                unsigned char   output[32]);
+int sm3_final(  sm3_ctx_t   *ctx,
+                uint8_t     output[32]);
 
 /**
  * \brief
@@ -86,10 +87,9 @@ int sm3_final(  sm3_ctx_t       *ctx,
  *
  * \return          算法運行是否成功，成功返回0
  */
-
-int sm3(unsigned char   *input,
-        int             ilen,
-        unsigned char   output[32]);
+int sm3_alg(uint8_t     *input,
+            uint32_t    ilen,
+            uint8_t     output[32]);
 
 #ifdef __cplusplus
 }

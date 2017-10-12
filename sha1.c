@@ -107,9 +107,9 @@ int sha1_init(sha1_ctx_t *ctx)
     return 0;
 }
 
-int sha1_update(sha1_ctx_t  *ctx,
-                const BYTE  data[],
-                size_t      len)
+int sha1_update(sha1_ctx_t      *ctx,
+                const uint8_t   data[],
+                size_t          len)
 {
     size_t i;
 
@@ -126,7 +126,8 @@ int sha1_update(sha1_ctx_t  *ctx,
     return 0;
 }
 
-int sha1_final(sha1_ctx_t *ctx, BYTE hash[])
+int sha1_final(sha1_ctx_t   *ctx,
+               uint8_t      hash[])
 {
     WORD i;
 

@@ -11,7 +11,7 @@
 #define _SHA1_H_
 
 /*************************** HEADER FILES ***************************/
-#include <stddef.h>
+#include <stdint.h>
 
 #include "cryptoalg_data_type.h"
 
@@ -30,11 +30,11 @@
  *      定義SHA1摘要算法上下文機構體
  */
 typedef struct {
-    BYTE data[64];
-    WORD datalen;
-    unsigned long long bitlen;
-    WORD state[5];
-    WORD k[4];
+    uint8_t     data[64];
+    uint32_t    datalen;
+    uint64_t    bitlen;
+    uint32_t    state[5];
+    uint32_t    k[4];
 } sha1_ctx_t;
 
 /*********************** FUNCTION DECLARATIONS **********************/
@@ -61,9 +61,9 @@ int sha1_init(sha1_ctx_t *ctx);
  *
  * \return       更新分組是否成功，成功返回0
  */
-int sha1_update(sha1_ctx_t  *ctx,
-                const BYTE  data[],
-                size_t      len);
+int sha1_update(sha1_ctx_t      *ctx,
+                const uint8_t   data[],
+                size_t          len);
 
 /**
  * \brief
@@ -75,7 +75,7 @@ int sha1_update(sha1_ctx_t  *ctx,
  * \return       算法輸出結果是否成功，成功返回0
  */
 int sha1_final(sha1_ctx_t   *ctx,
-               BYTE         hash[]);
+               uint8_t      hash[]);
 #ifdef __cplusplus
 }
 #endif
