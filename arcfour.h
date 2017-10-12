@@ -12,8 +12,10 @@
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
 
+#include "cryptoalg_data_type.h"
+
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;             // 8-bit byte
+
 
 /*********************** FUNCTION DECLARATIONS **********************/
 // Input: state - the state used to generate the keystream

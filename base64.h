@@ -12,8 +12,10 @@
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
 
+#include "cryptoalg_data_type.h"
+
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;             // 8-bit byte
+
 
 /*********************** FUNCTION DECLARATIONS **********************/
 // Returns the size of the output. If called with out = NULL, will just return

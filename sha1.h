@@ -13,8 +13,9 @@
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
 
-/****************************** MACROS ******************************/
+#include "cryptoalg_data_type.h"
 
+/****************************** MACROS ******************************/
 /**
  * \def    SHA1_BLOCK_SIZE
  * \brief
@@ -23,18 +24,6 @@
 #define SHA1_BLOCK_SIZE 20
 
 /**************************** DATA TYPES ****************************/
-/**
- * \typedef BYTE
- * \brief  定義8位數據類型
- */
-typedef unsigned char BYTE;
-
-/**
- * \typedef WORD
- * \brief  定義32位數據類型,在16位機器上使用long代替int
- */
-typedef unsigned int  WORD;
-
 /**
  * \struct sha1_ctx_t
  * \brief  定義SHA1摘要算法上下文機構體

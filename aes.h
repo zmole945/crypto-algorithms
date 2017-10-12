@@ -12,19 +12,13 @@
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
 
+#include "cryptoalg_data_type.h"
+
 /****************************** MACROS ******************************/
 #define AES_BLOCK_SIZE 16
 
 /**************************** DATA TYPES ****************************/
-/*! \typedef BYTE
-    \brief  定義8位數據類型
-*/
-typedef unsigned char BYTE;
 
-/*! \typedef WORD
-    \brief  定義32位數據類型,在16位機器上使用long代替int
-*/
-typedef unsigned int WORD;
 
 /*********************** FUNCTION DECLARATIONS **********************/
 ///////////////////
@@ -55,6 +49,7 @@ int aes_encrypt_cbc(const BYTE in[],          // Plaintext
                     int keysize,              // Bit length of the key, 128, 192, or 256
                     const BYTE iv[]);         // IV, must be AES_BLOCK_SIZE bytes long
 
+#if 0
 // Only output the CBC-MAC of the input.
 int aes_encrypt_cbc_mac(const BYTE in[],      // plaintext
                         size_t in_len,        // Must be a multiple of AES_BLOCK_SIZE
@@ -117,7 +112,9 @@ int aes_decrypt_ccm(const BYTE ciphertext[],             // IN  - Ciphertext, th
                     int *mac_auth,                       // OUT - TRUE if authentication succeeded, FALSE if it did not. NULL pointer will ignore the authentication.
                     const BYTE key[],                    // IN  - The AES key for decryption.
                     int keysize);                        // IN  - The length of the key in BITS. Valid values are 128, 192, 256.
+#endif
 
+#if 0
 ///////////////////
 // Test functions
 ///////////////////
@@ -126,5 +123,6 @@ int aes_ecb_test();
 int aes_cbc_test();
 int aes_ctr_test();
 int aes_ccm_test();
+#endif
 
 #endif   // AES_H

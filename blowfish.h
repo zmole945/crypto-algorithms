@@ -12,13 +12,12 @@
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
 
+#include "cryptoalg_data_type.h"
+
 /****************************** MACROS ******************************/
 #define BLOWFISH_BLOCK_SIZE 8           // Blowfish operates on 8 bytes at a time
 
 /**************************** DATA TYPES ****************************/
-typedef unsigned char BYTE;             // 8-bit byte
-typedef unsigned int  WORD;             // 32-bit word, change to "long" for 16-bit machines
-
 typedef struct {
    WORD p[18];
    WORD s[4][256];

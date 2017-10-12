@@ -13,6 +13,8 @@
 /*************************** HEADER FILES ***************************/
 #include <stddef.h>
 
+#include "cryptoalg_data_type.h"
+
 /****************************** MACROS ******************************/
 /**
  * \def    SHA256_BLOCK_SIZE
@@ -23,20 +25,9 @@
 
 /**************************** DATA TYPES ****************************/
 /**
- * \typedef BYTE
- * \brief  定義8位數據類型
- */
-typedef unsigned char BYTE;
-
-/**
- * \typedef WORD
- * \brief  定義32位數據類型,在16位機器上使用long代替int
- */
-typedef unsigned int  WORD;
-
-/**
  * \struct sha256_ctx_t
- * \brief  定義SHA256摘要算法上下文機構體
+ * \brief
+ *      定義SHA256摘要算法上下文機構體
  */
 typedef struct {
     BYTE data[64];
