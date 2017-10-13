@@ -10,9 +10,14 @@
 #ifndef XYSSL_SM4_H
 #define XYSSL_SM4_H
 
+/*************************** HEADER FILES ***************************/
+#include <stdint.h>
+
+/****************************** MACROS ******************************/
 #define SM4_ENCRYPT     1
 #define SM4_DECRYPT     0
 
+/**************************** DATA TYPES ****************************/
 /**
  * \brief          SM4 context structure
  */
@@ -24,6 +29,7 @@ typedef struct
 sm4_context;
 
 
+/*********************** FUNCTION DECLARATIONS **********************/
 #ifdef __cplusplus
 extern "C" {
 #endif
