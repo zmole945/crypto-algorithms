@@ -431,7 +431,7 @@ int aes_encrypt_cbc(    const BYTE  in[],
 {
     BYTE buf_in[AES_BLOCK_SIZE];
     BYTE buf_out[AES_BLOCK_SIZE];
-    BYTE  iv_buf[AES_BLOCK_SIZE];
+    BYTE iv_buf[AES_BLOCK_SIZE];
     int blocks, idx;
 
     if (in_len % AES_BLOCK_SIZE != 0)
