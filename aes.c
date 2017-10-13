@@ -422,6 +422,53 @@ static void xor_buf(const BYTE in[], BYTE out[], size_t len)
 /*******************
  * AES - CBC
  *******************/
+int aes_encrypt_ecb(    const BYTE  in[],
+                        size_t      in_len,
+                        BYTE        out[],
+                        const WORD  key[],
+                        int         keysize)
+{
+    int blocks, idx;
+
+    if (in_len % AES_BLOCK_SIZE != 0)
+        return(FALSE);
+
+    blocks = in_len / AES_BLOCK_SIZE;
+
+    for (idx = 0; idx < blocks; idx++) {
+        aes_encrypt(in+idx*AES_BLOCK_SIZE,
+                    out+idx*AES_BLOCK_SIZE,
+                    key,
+                    keysize);
+    }
+
+    return(TRUE);
+}
+
+
+int aes_decrypt_ecb(    const BYTE  in[],
+                        size_t      in_len,
+                        BYTE        out[],
+                        const WORD  key[],
+                        int         keysize)
+{
+    int blocks, idx;
+
+    if (in_len % AES_BLOCK_SIZE != 0)
+        return(FALSE);
+
+    blocks = in_len / AES_BLOCK_SIZE;
+
+    for (idx = 0; idx < blocks; idx++) {
+        aes_decrypt(in+idx*AES_BLOCK_SIZE,
+                    out+idx*AES_BLOCK_SIZE,
+                    key,
+                    keysize);
+    }
+
+    return(TRUE);
+}
+
 int aes_encrypt_cbc(    const BYTE  in[],
                         size_t      in_len,
                         BYTE        out[],

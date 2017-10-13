@@ -31,13 +31,13 @@
  * \brief
  *      AES密鑰初始化，加密前需要完成該設置
  *
- * \param key       密鑰首地址，只接受128,192或256位的密鑰
+ * \param key       密鑰首地址，只接受128,192或256位的密鑰 \n
  * \param w         計算出的key schedule加密時使用
  * \param keysize   密鑰位數，可以取128,192,256
  *
  * \return          初始化是否成功，成功返回0
  */
-void aes_key_setup(const BYTE   key[],
+void aes_key_setup(const BYTE   key[],  /*ldskjflkadsjfl;k */
                    WORD         w[],
                    int          keysize);
 
