@@ -54,6 +54,44 @@ int des_alg(    const uint8_t   *in,
 
 /**
  * \brief
+ *      DES加解密算法，ecb模式
+ *
+ * \param in     輸入數據首地址
+ * \param len    數據長度
+ * \param out    輸出數據首地址
+ * \param key    密鑰首地址，密鑰長度8字節
+ * \param mode   加密/解密
+ *
+ * \return       DES算法加解密是否成功，成功返回0
+ */
+int des_alg_ecb(const uint8_t   *in,
+                uint32_t        len,
+                uint8_t         *out,
+                const uint8_t   *key,
+                des_mode_t      mode);
+
+/**
+ * \brief
+ *      DES加解密算法，cbc模式
+ *
+ * \param iv     初始化向量首地址，長度為8字節
+ * \param in     輸入數據首地址
+ * \param len    數據長度
+ * \param out    輸出數據首地址
+ * \param key    密鑰首地址，密鑰長度8字節
+ * \param mode   加密/解密
+ *
+ * \return       DES算法加解密是否成功，成功返回0
+ */
+int des_alg_cbc(const uint8_t   *iv,
+                const uint8_t   *in,
+                uint32_t        len,
+                uint8_t         *out,
+                const uint8_t   *key,
+                des_mode_t      mode);
+
+/**
+ * \brief
  *      DES密鑰初始化，加密前需要完成該設置
  *
  * \param key       密鑰首地址，密鑰長度8字節
@@ -96,6 +134,44 @@ int tdes_alg(   const uint8_t   *in,
                 uint8_t         *out,
                 const uint8_t   *key,
                 des_mode_t      mode);
+
+/**
+ * \brief
+ *      3DES加解密算法，ecb模式
+ *
+ * \param in     輸入數據首地址
+ * \param len    數據長度
+ * \param out    輸出數據首地址
+ * \param key    密鑰首地址，密鑰長度8字節
+ * \param mode   加密/解密
+ *
+ * \return       DES算法加解密是否成功，成功返回0
+ */
+int tdes_alg_ecb(const uint8_t   *in,
+                 uint32_t        len,
+                 uint8_t         *out,
+                 const uint8_t   *key,
+                 des_mode_t      mode);
+
+/**
+ * \brief
+ *      3DES加解密算法，cbc模式
+ *
+ * \param iv     初始化向量首地址，長度為8字節
+ * \param in     輸入數據首地址
+ * \param len    數據長度
+ * \param out    輸出數據首地址
+ * \param key    密鑰首地址，密鑰長度8字節
+ * \param mode   加密/解密
+ *
+ * \return       DES算法加解密是否成功，成功返回0
+ */
+int tdes_alg_cbc(const uint8_t   *iv,
+                 const uint8_t   *in,
+                 uint32_t        len,
+                 uint8_t         *out,
+                 const uint8_t   *key,
+                 des_mode_t      mode);
 
 /**
  * \brief

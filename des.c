@@ -369,6 +369,84 @@ int des_alg(    const uint8_t   *in,
     }
 }
 
+int des_alg_ecb(const uint8_t   *in,
+                uint32_t        len,
+                uint8_t         *out,
+                const uint8_t   *key,
+                des_mode_t      mode)
+{
+    BYTE schedule[16][6];
+    uint32_t blocks, idx;
+
+    if (len % DES_BLOCK_SIZE != 0)
+        return(-1);
+
+    blocks = len / DES_BLOCK_SIZE;
+
+    if (false) {
+        return -1;
+    } else if (mode == MODE_ENCRYPT) {
+        des_key_setup(key, schedule, mode);
+    } else if (mode == MODE_DECRYPT) {
+        des_key_setup(key, schedule, mode);
+    } else {
+        return -1;
+    }
+
+    for (idx = 0; idx < blocks; idx++) {
+        des_crypt(  in+idx*DES_BLOCK_SIZE,
+                    out+idx*DES_BLOCK_SIZE,
+                    schedule);
+    }
+
+    return 0;
+}
+
+int des_alg_cbc(const uint8_t   *iv,
+                const uint8_t   *in,
+                uint32_t        len,
+                uint8_t         *out,
+                const uint8_t   *key,
+                des_mode_t      mode)
+{
+    BYTE schedule[16][6];
+    uint32_t blocks, idx;
+    uint32_t i;
+    uint8_t in_temp[DES_BLOCK_SIZE];
+    uint8_t iv_temp[DES_BLOCK_SIZE];
+
+    if (len % DES_BLOCK_SIZE != 0)
+        return(-1);
+
+    blocks = len / DES_BLOCK_SIZE;
+
+    if (false) {
+        return -1;
+    } else if (mode == MODE_ENCRYPT) {
+        des_key_setup(key, schedule, mode);
+    } else if (mode == MODE_DECRYPT) {
+        des_key_setup(key, schedule, mode);
+    } else {
+        return -1;
+    }
+
+    memcpy(iv_temp, iv, DES_BLOCK_SIZE);
+
+    for (idx = 0; idx < blocks; idx++) {
+        for (i=0; i<DES_BLOCK_SIZE; i++) {
+            in_temp[i] = in[idx*DES_BLOCK_SIZE+i] ^ iv_temp[i];
+        }
+
+        des_crypt(  in_temp,
+                    out+idx*DES_BLOCK_SIZE,
+                    schedule);
+
+        memcpy(iv_temp, out+idx*DES_BLOCK_SIZE, DES_BLOCK_SIZE);
+    }
+
+    return 0;
+}
+
 int tdes_alg(const uint8_t   *in,
              uint8_t         *out,
              const uint8_t   *key,
@@ -389,5 +467,83 @@ int tdes_alg(const uint8_t   *in,
     } else {
         return -1;
     }
+}
+
+int tdes_alg_ecb(const uint8_t   *in,
+                 uint32_t        len,
+                 uint8_t         *out,
+                 const uint8_t   *key,
+                 des_mode_t      mode)
+{
+    BYTE schedule[3][16][6];
+    uint32_t blocks, idx;
+
+    if (len % DES_BLOCK_SIZE != 0)
+        return(-1);
+
+    blocks = len / DES_BLOCK_SIZE;
+
+    if (false) {
+        return -1;
+    } else if (mode == MODE_ENCRYPT) {
+        tdes_key_setup(key, schedule, mode);
+    } else if (mode == MODE_DECRYPT) {
+        tdes_key_setup(key, schedule, mode);
+    } else {
+        return -1;
+    }
+
+    for (idx = 0; idx < blocks; idx++) {
+        tdes_crypt( in+idx*DES_BLOCK_SIZE,
+                    out+idx*DES_BLOCK_SIZE,
+                    schedule);
+    }
+
+    return 0;
+}
+
+int tdes_alg_cbc(const uint8_t   *iv,
+                 const uint8_t   *in,
+                 uint32_t        len,
+                 uint8_t         *out,
+                 const uint8_t   *key,
+                 des_mode_t      mode)
+{
+    BYTE schedule[3][16][6];
+    uint32_t blocks, idx;
+    uint32_t i;
+    uint8_t in_temp[DES_BLOCK_SIZE];
+    uint8_t iv_temp[DES_BLOCK_SIZE];
+
+    if (len % DES_BLOCK_SIZE != 0)
+        return(-1);
+
+    blocks = len / DES_BLOCK_SIZE;
+
+    if (false) {
+        return -1;
+    } else if (mode == MODE_ENCRYPT) {
+        tdes_key_setup(key, schedule, mode);
+    } else if (mode == MODE_DECRYPT) {
+        tdes_key_setup(key, schedule, mode);
+    } else {
+        return -1;
+    }
+
+    memcpy(iv_temp, iv, DES_BLOCK_SIZE);
+
+    for (idx = 0; idx < blocks; idx++) {
+        for (i=0; i<DES_BLOCK_SIZE; i++) {
+            in_temp[i] = in[idx*DES_BLOCK_SIZE+i] ^ iv_temp[i];
+        }
+
+        tdes_crypt( in_temp,
+                    out+idx*DES_BLOCK_SIZE,
+                    schedule);
+
+        memcpy(iv_temp, out+idx*DES_BLOCK_SIZE, DES_BLOCK_SIZE);
+    }
+
+    return 0;
 }
 
