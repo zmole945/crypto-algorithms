@@ -432,17 +432,32 @@ int des_alg_cbc(const uint8_t   *iv,
 
     memcpy(iv_temp, iv, DES_BLOCK_SIZE);
 
-    for (idx = 0; idx < blocks; idx++) {
-        for (i=0; i<DES_BLOCK_SIZE; i++) {
-            in_temp[i] = in[idx*DES_BLOCK_SIZE+i] ^ iv_temp[i];
+    if (false) {
+    } else if (mode == DES_ENCRYPT) {
+        for (idx = 0; idx < blocks; idx++) {
+            for (i=0; i<DES_BLOCK_SIZE; i++) {
+                in_temp[i] = in[idx*DES_BLOCK_SIZE+i] ^ iv_temp[i];
+            }
+
+            des_crypt(  in_temp,
+                        out+idx*DES_BLOCK_SIZE,
+                        schedule);
+
+            memcpy(iv_temp, out+idx*DES_BLOCK_SIZE, DES_BLOCK_SIZE);
         }
+    } else if (mode == DES_DECRYPT) {
+        for (idx = 0; idx < blocks; idx++) {
+            des_crypt(  in+idx*DES_BLOCK_SIZE,
+                        in_temp,
+                        schedule);
 
-        des_crypt(  in_temp,
-                    out+idx*DES_BLOCK_SIZE,
-                    schedule);
+            for (i=0; i<DES_BLOCK_SIZE; i++) {
+                out[idx*DES_BLOCK_SIZE+i] = in_temp[i] ^ iv_temp[i];
+            }
 
-        memcpy(iv_temp, out+idx*DES_BLOCK_SIZE, DES_BLOCK_SIZE);
-    }
+            memcpy(iv_temp, in+idx*DES_BLOCK_SIZE, DES_BLOCK_SIZE);
+        }
+    } else {}
 
     return 0;
 }
@@ -532,17 +547,32 @@ int tdes_alg_cbc(const uint8_t   *iv,
 
     memcpy(iv_temp, iv, DES_BLOCK_SIZE);
 
-    for (idx = 0; idx < blocks; idx++) {
-        for (i=0; i<DES_BLOCK_SIZE; i++) {
-            in_temp[i] = in[idx*DES_BLOCK_SIZE+i] ^ iv_temp[i];
+    if (false) {
+    } else if (mode == DES_ENCRYPT) {
+        for (idx = 0; idx < blocks; idx++) {
+            for (i=0; i<DES_BLOCK_SIZE; i++) {
+                in_temp[i] = in[idx*DES_BLOCK_SIZE+i] ^ iv_temp[i];
+            }
+
+            tdes_crypt( in_temp,
+                        out+idx*DES_BLOCK_SIZE,
+                        schedule);
+
+            memcpy(iv_temp, out+idx*DES_BLOCK_SIZE, DES_BLOCK_SIZE);
         }
+    } else if (mode == DES_DECRYPT) {
+        for (idx = 0; idx < blocks; idx++) {
+            tdes_crypt( in+idx*DES_BLOCK_SIZE,
+                        in_temp,
+                        schedule);
 
-        tdes_crypt( in_temp,
-                    out+idx*DES_BLOCK_SIZE,
-                    schedule);
+            for (i=0; i<DES_BLOCK_SIZE; i++) {
+                out[idx*DES_BLOCK_SIZE+i] = in_temp[i] ^ iv_temp[i];
+            }
 
-        memcpy(iv_temp, out+idx*DES_BLOCK_SIZE, DES_BLOCK_SIZE);
-    }
+            memcpy(iv_temp, in+idx*DES_BLOCK_SIZE, DES_BLOCK_SIZE);
+        }
+    } else {}
 
     return 0;
 }

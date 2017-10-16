@@ -67,8 +67,14 @@ static int test_des_ecb(void)
                 buf,
                 key,
                 DES_ENCRYPT);
+    pass = pass && (!memcmp(ct, buf, DES_BLOCK_SIZE*8));
 
-    pass = !memcmp(ct, buf, DES_BLOCK_SIZE*8);
+    des_alg_ecb(ct,
+                DES_BLOCK_SIZE*8,
+                buf,
+                key,
+                DES_DECRYPT);
+    pass = pass && (!memcmp(pt, buf, DES_BLOCK_SIZE*8));
 
     printf("DES ECB test: %s\n", pass ? "SUCCEEDED" : "FAILED");
 
@@ -100,8 +106,15 @@ static int test_des_cbc(void)
                 buf,
                 key,
                 DES_ENCRYPT);
+    pass = pass && (!memcmp(ct, buf, DES_BLOCK_SIZE*2));
 
-    pass = !memcmp(ct, buf, DES_BLOCK_SIZE*2);
+    des_alg_cbc(iv,
+                ct,
+                DES_BLOCK_SIZE*2,
+                buf,
+                key,
+                DES_DECRYPT);
+    pass = pass && (!memcmp(pt, buf, DES_BLOCK_SIZE*2));
 
     printf("DES CBC test: %s\n", pass ? "SUCCEEDED" : "FAILED");
 
@@ -143,8 +156,14 @@ static int test_tdes_ecb(void)
                  buf,
                  key,
                  DES_ENCRYPT);
+    pass = pass && (!memcmp(ct, buf, DES_BLOCK_SIZE*8));
 
-    pass = !memcmp(ct, buf, DES_BLOCK_SIZE*8);
+    tdes_alg_ecb(ct,
+                 DES_BLOCK_SIZE*8,
+                 buf,
+                 key,
+                 DES_DECRYPT);
+    pass = pass && (!memcmp(pt, buf, DES_BLOCK_SIZE*8));
 
     printf("3DES ECB test: %s\n", pass ? "SUCCEEDED" : "FAILED");
 
@@ -178,8 +197,15 @@ static int test_tdes_cbc(void)
                  buf,
                  key,
                  DES_ENCRYPT);
+    pass = pass && (!memcmp(ct, buf, DES_BLOCK_SIZE*2));
 
-    pass = !memcmp(ct, buf, DES_BLOCK_SIZE*2);
+    tdes_alg_cbc(iv,
+                 ct,
+                 DES_BLOCK_SIZE*2,
+                 buf,
+                 key,
+                 DES_DECRYPT);
+    pass = pass && (!memcmp(pt, buf, DES_BLOCK_SIZE*2));
 
     printf("3DES CBC test: %s\n", pass ? "SUCCEEDED" : "FAILED");
 

@@ -19,7 +19,7 @@
 
 /**************************** DATA TYPES ****************************/
 /**
- * \brief          SM4 context structure
+ * \brief          SM4加密算法上下文數據結構
  */
 typedef struct
 {
