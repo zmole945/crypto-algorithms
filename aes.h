@@ -37,9 +37,9 @@
  *
  * \return          初始化是否成功，成功返回0
  */
-void aes_key_setup(const BYTE   key[],  /*ldskjflkadsjfl;k */
-                   WORD         w[],
-                   int          keysize);
+void aes_key_setup(const uint8_t    key[],
+                   WORD             w[],
+                   int              keysize);
 
 /**
  * \brief
@@ -52,10 +52,10 @@ void aes_key_setup(const BYTE   key[],  /*ldskjflkadsjfl;k */
  *
  * \return          加密是否成功，成功返回0
  */
-void aes_encrypt(const BYTE     in[],
-                 BYTE           out[],
-                 const WORD     key[],
-                 int            keysize);
+void aes_encrypt(const uint8_t      in[],
+                 uint8_t            out[],
+                 const WORD         key[],
+                 int                keysize);
 
 /**
  * \brief
@@ -68,10 +68,10 @@ void aes_encrypt(const BYTE     in[],
  *
  * \return          解密是否成功，成功返回0
  */
-void aes_decrypt(const BYTE     in[],
-                 BYTE           out[],
-                 const WORD     key[],
-                 int            keysize);
+void aes_decrypt(const uint8_t      in[],
+                 uint8_t            out[],
+                 const WORD         key[],
+                 int                keysize);
 
 /**
  * \brief
@@ -85,11 +85,11 @@ void aes_decrypt(const BYTE     in[],
  *
  * \return          AES的ECB模式加密是否成功，成功返回0
  */
-int aes_encrypt_ecb(const BYTE  in[],
-                    size_t      in_len,
-                    BYTE        out[],
-                    const WORD  key[],
-                    int         keysize);
+int aes_encrypt_ecb(const uint8_t   in[],
+                    size_t          in_len,
+                    uint8_t         out[],
+                    const WORD      key[],
+                    int             keysize);
 
 /**
  * \brief
@@ -103,11 +103,11 @@ int aes_encrypt_ecb(const BYTE  in[],
  *
  * \return          AES的ECB模式解密是否成功，成功返回0
  */
-int aes_decrypt_ecb(const BYTE  in[],
-                    size_t      in_len,
-                    BYTE        out[],
-                    const WORD  key[],
-                    int         keysize);
+int aes_decrypt_ecb(const uint8_t   in[],
+                    size_t          in_len,
+                    uint8_t         out[],
+                    const WORD      key[],
+                    int             keysize);
 
 /**
  * \brief
@@ -122,12 +122,12 @@ int aes_decrypt_ecb(const BYTE  in[],
  *
  * \return          AES的CBC模式加密是否成功，成功返回0
  */
-int aes_encrypt_cbc(const BYTE  in[],
-                    size_t      in_len,
-                    BYTE        out[],
-                    const WORD  key[],
-                    int         keysize,
-                    const BYTE  iv[]);
+int aes_encrypt_cbc(const uint8_t   in[],
+                    size_t          in_len,
+                    uint8_t         out[],
+                    const WORD      key[],
+                    int             keysize,
+                    const uint8_t   iv[]);
 
 /**
  * \brief
@@ -142,11 +142,11 @@ int aes_encrypt_cbc(const BYTE  in[],
  *
  * \return          AES的CBC模式解密是否成功，成功返回0
  */
-int aes_decrypt_cbc(const BYTE  in[],
-                    size_t      in_len,
-                    BYTE        out[],
-                    const WORD  key[],
-                    int         keysize,
-                    const BYTE  iv[]);
+int aes_decrypt_cbc(const uint8_t   in[],
+                    size_t          in_len,
+                    uint8_t         out[],
+                    const WORD      key[],
+                    int             keysize,
+                    const uint8_t   iv[]);
 
 #endif   // AES_H
