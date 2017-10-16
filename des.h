@@ -107,9 +107,9 @@ int tdes_alg(   const uint8_t   *in,
  *
  * \return          初始化是否成功，成功返回0
  */
-void three_des_key_setup(   const BYTE  key[],
-                            BYTE        schedule[][16][6],
-                            DES_MODE    mode);
+void tdes_key_setup(const BYTE  key[],
+                    BYTE        schedule[][16][6],
+                    DES_MODE    mode);
 
 /**
  * \brief
@@ -122,9 +122,9 @@ void three_des_key_setup(   const BYTE  key[],
  *
  * \return      加解密是否成功，成功返回0
  */
-void three_des_crypt(   const BYTE  in[],
-                        BYTE        out[],
-                        BYTE        key[][16][6]);
+void tdes_crypt(const BYTE  in[],
+                BYTE        out[],
+                BYTE        key[][16][6]);
 
 #endif   // DES_H
 

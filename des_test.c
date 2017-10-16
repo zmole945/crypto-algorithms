@@ -99,22 +99,22 @@ int des_test()
 #if 1
     tdes_alg(pt1, buf, three_key1, DES_ENCRYPT);
 #else
-    three_des_key_setup(three_key1, three_schedule, DES_ENCRYPT);
-    three_des_crypt(pt1, buf, three_schedule);
+    tdes_key_setup(three_key1, three_schedule, DES_ENCRYPT);
+    tdes_crypt(pt1, buf, three_schedule);
 #endif
     pass = pass && !memcmp(ct3, buf, DES_BLOCK_SIZE);
 
-    three_des_key_setup(three_key1, three_schedule, DES_DECRYPT);
-    three_des_crypt(ct3, buf, three_schedule);
+    tdes_key_setup(three_key1, three_schedule, DES_DECRYPT);
+    tdes_crypt(ct3, buf, three_schedule);
     pass = pass && !memcmp(pt1, buf, DES_BLOCK_SIZE);
 
     //pt3 <==== three_key2 3des ====> ct4
-    three_des_key_setup(three_key2, three_schedule, DES_ENCRYPT);
-    three_des_crypt(pt3, buf, three_schedule);
+    tdes_key_setup(three_key2, three_schedule, DES_ENCRYPT);
+    tdes_crypt(pt3, buf, three_schedule);
     pass = pass && !memcmp(ct4, buf, DES_BLOCK_SIZE);
 
-    three_des_key_setup(three_key2, three_schedule, DES_DECRYPT);
-    three_des_crypt(ct4, buf, three_schedule);
+    tdes_key_setup(three_key2, three_schedule, DES_DECRYPT);
+    tdes_crypt(ct4, buf, three_schedule);
     pass = pass && !memcmp(pt3, buf, DES_BLOCK_SIZE);
 
     return(pass);
