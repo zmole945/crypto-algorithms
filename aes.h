@@ -38,7 +38,7 @@
  * \return          初始化是否成功，成功返回0
  */
 void aes_key_setup(const uint8_t    key[],
-                   WORD             w[],
+                   uint32_t         w[],
                    int              keysize);
 
 /**
@@ -54,7 +54,7 @@ void aes_key_setup(const uint8_t    key[],
  */
 void aes_encrypt(const uint8_t      in[],
                  uint8_t            out[],
-                 const WORD         key[],
+                 const uint32_t     key[],
                  int                keysize);
 
 /**
@@ -70,7 +70,7 @@ void aes_encrypt(const uint8_t      in[],
  */
 void aes_decrypt(const uint8_t      in[],
                  uint8_t            out[],
-                 const WORD         key[],
+                 const uint32_t     key[],
                  int                keysize);
 
 /**
@@ -88,7 +88,7 @@ void aes_decrypt(const uint8_t      in[],
 int aes_encrypt_ecb(const uint8_t   in[],
                     size_t          in_len,
                     uint8_t         out[],
-                    const WORD      key[],
+                    const uint32_t  key[],
                     int             keysize);
 
 /**
@@ -106,7 +106,7 @@ int aes_encrypt_ecb(const uint8_t   in[],
 int aes_decrypt_ecb(const uint8_t   in[],
                     size_t          in_len,
                     uint8_t         out[],
-                    const WORD      key[],
+                    const uint32_t  key[],
                     int             keysize);
 
 /**
@@ -125,7 +125,7 @@ int aes_decrypt_ecb(const uint8_t   in[],
 int aes_encrypt_cbc(const uint8_t   in[],
                     size_t          in_len,
                     uint8_t         out[],
-                    const WORD      key[],
+                    const uint32_t  key[],
                     int             keysize,
                     const uint8_t   iv[]);
 
@@ -145,7 +145,7 @@ int aes_encrypt_cbc(const uint8_t   in[],
 int aes_decrypt_cbc(const uint8_t   in[],
                     size_t          in_len,
                     uint8_t         out[],
-                    const WORD      key[],
+                    const uint32_t  key[],
                     int             keysize,
                     const uint8_t   iv[]);
 

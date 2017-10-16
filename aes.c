@@ -427,7 +427,7 @@ static void xor_buf(const uint8_t   in[],
 int aes_encrypt_ecb(    const uint8_t   in[],
                         size_t          in_len,
                         uint8_t         out[],
-                        const WORD      key[],
+                        const uint32_t  key[],
                         int             keysize)
 {
     int blocks, idx;
@@ -451,7 +451,7 @@ int aes_encrypt_ecb(    const uint8_t   in[],
 int aes_decrypt_ecb(    const uint8_t   in[],
                         size_t          in_len,
                         uint8_t         out[],
-                        const WORD      key[],
+                        const uint32_t  key[],
                         int             keysize)
 {
     int blocks, idx;
@@ -474,7 +474,7 @@ int aes_decrypt_ecb(    const uint8_t   in[],
 int aes_encrypt_cbc(    const uint8_t   in[],
                         size_t          in_len,
                         uint8_t         out[],
-                        const WORD      key[],
+                        const uint32_t  key[],
                         int             keysize,
                         const uint8_t   iv[])
 {
@@ -504,7 +504,7 @@ int aes_encrypt_cbc(    const uint8_t   in[],
 int aes_encrypt_cbc_mac(    const uint8_t   in[],
                             size_t          in_len,
                             uint8_t         out[],
-                            const WORD      key[],
+                            const uint32_t  key[],
                             int             keysize,
                             const uint8_t   iv[])
 {
@@ -536,7 +536,7 @@ int aes_encrypt_cbc_mac(    const uint8_t   in[],
 int aes_decrypt_cbc(    const uint8_t   in[],
                         size_t          in_len,
                         uint8_t         out[],
-                        const WORD      key[],
+                        const uint32_t  key[],
                         int             keysize,
                         const uint8_t   iv[])
 {
@@ -585,7 +585,7 @@ void increment_iv(uint8_t iv[], int counter_size)
 void aes_encrypt_ctr(   const uint8_t   in[],
                         size_t          in_len,
                         uint8_t         out[],
-                        const WORD      key[],
+                        const uint32_t  key[],
                         int             keysize,
                         const uint8_t   iv[])
 {
@@ -610,12 +610,12 @@ void aes_encrypt_ctr(   const uint8_t   in[],
     xor_buf(out_buf, &out[idx], in_len - idx);   // Use the Most Significant bytes.
 }
 
-void aes_decrypt_ctr(   const uint8_t  in[],
-                        size_t      in_len,
-                        uint8_t        out[],
-                        const WORD  key[],
-                        int         keysize,
-                        const uint8_t  iv[])
+void aes_decrypt_ctr(   const uint8_t   in[],
+                        size_t          in_len,
+                        uint8_t         out[],
+                        const uint32_t  key[],
+                        int             keysize,
+                        const uint8_t   iv[])
 {
     // CTR encryption is its own inverse function.
     aes_encrypt_ctr(in, in_len, out, key, keysize, iv);
@@ -626,20 +626,20 @@ void aes_decrypt_ctr(   const uint8_t  in[],
  *******************/
 // out_len = payload_len + assoc_len
 int aes_encrypt_ccm(    const uint8_t       payload[],
-                        WORD                payload_len,
+                        uint32_t            payload_len,
                         const uint8_t       assoc[],
                         unsigned short      assoc_len,
                         const uint8_t       nonce[],
                         unsigned short      nonce_len,
                         uint8_t             out[],
-                        WORD                *out_len,
-                        WORD                mac_len,
+                        uint32_t            *out_len,
+                        uint32_t            mac_len,
                         const uint8_t       key_str[],
                         int                 keysize)
 {
     uint8_t temp_iv[AES_BLOCK_SIZE], counter[AES_BLOCK_SIZE], mac[16], *buf;
     int end_of_buf, payload_len_store_size;
-    WORD key[60];
+    uint32_t key[60];
 
     if (mac_len != 4 &&
         mac_len != 6 &&
@@ -727,14 +727,14 @@ int aes_encrypt_ccm(    const uint8_t       payload[],
 // plaintext_len = ciphertext_len - mac_len
 // Needs a flag for whether the MAC matches.
 int aes_decrypt_ccm(    const uint8_t       ciphertext[],
-                        WORD                ciphertext_len,
+                        uint32_t            ciphertext_len,
                         const uint8_t       assoc[],
                         unsigned short      assoc_len,
                         const uint8_t       nonce[],
                         unsigned short      nonce_len,
                         uint8_t             plaintext[],
-                        WORD                *plaintext_len,
-                        WORD                mac_len,
+                        uint32_t            *plaintext_len,
+                        uint32_t            mac_len,
                         int                 *mac_auth,
                         const uint8_t       key_str[],
                         int                 keysize)
@@ -745,7 +745,7 @@ int aes_decrypt_ccm(    const uint8_t       ciphertext[],
     uint8_t mac_buf[16];
     uint8_t *buf;
     int end_of_buf, plaintext_len_store_size;
-    WORD key[60];
+    uint32_t key[60];
 
     if (ciphertext_len <= mac_len)
         return(FALSE);
@@ -918,7 +918,7 @@ void ccm_format_payload_data(   uint8_t         buf[],
 /////////////////
 
 // Substitutes a word using the AES S-Box.
-WORD SubWord(WORD word)
+uint32_t SubWord(uint32_t word)
 {
     unsigned int result = 0;
 
@@ -935,12 +935,12 @@ WORD SubWord(WORD word)
 // is the user-supplied input key, "w" is the output
 // key schedule, "keysize" is the length in bits of "key",
 // must be 128, 192, or 256.
-void aes_key_setup( const uint8_t  key[],
-                    WORD        w[],
-                    int         keysize)
+void aes_key_setup( const uint8_t   key[],
+                    uint32_t        w[],
+                    int             keysize)
 {
     int Nb=4,Nr,Nk,idx;
-    WORD temp,Rcon[]={
+    uint32_t temp,Rcon[]={
         0x01000000,0x02000000,0x04000000,
         0x08000000,0x10000000,0x20000000,
         0x40000000,0x80000000,0x1b000000,
@@ -982,7 +982,7 @@ void aes_key_setup( const uint8_t  key[],
 // Also performs the job of InvAddRoundKey(); since the
 // function is a simple XOR process,
 // it is its own inverse.
-void AddRoundKey(uint8_t state[][4], const WORD w[])
+void AddRoundKey(uint8_t state[][4], const uint32_t w[])
 {
     uint8_t subkey[4];
 
@@ -1327,7 +1327,7 @@ void InvMixColumns(uint8_t state[][4])
 
 void aes_encrypt(   const uint8_t   in[],
                     uint8_t         out[],
-                    const WORD      key[],
+                    const uint32_t  key[],
                     int             keysize)
 {
     uint8_t state[4][4];
@@ -1456,7 +1456,7 @@ void aes_encrypt(   const uint8_t   in[],
 
 void aes_decrypt(   const uint8_t   in[],
                     uint8_t         out[],
-                    const WORD      key[],
+                    const uint32_t  key[],
                     int             keysize)
 {
     uint8_t state[4][4];
