@@ -7,7 +7,18 @@
 #include <stdio.h>
 #include "sm4.h"
 
+static int sm4_ecb_test(void);
+static int sm4_cbc_test(void);
+
 int main()
+{
+    sm4_ecb_test();
+    sm4_cbc_test();
+
+    return 0;
+}
+
+static int sm4_ecb_test(void)
 {
     unsigned char key[16] = {
         0x01,0x23,0x45,0x67,
@@ -38,18 +49,9 @@ int main()
     for(i=0;i<16;i++)
         printf("%02x ", output[i]);
     printf("\n");
-
-    //decrypt 1M times testing vector based on standards.
-    i = 0;
-    sm4_setkey_enc(&ctx,key);
-    while (i<1000000)
-    {
-        sm4_crypt_ecb(&ctx,1,16,input,input);
-        i++;
-    }
-    for(i=0;i<16;i++)
-        printf("%02x ", input[i]);
-    printf("\n");
-
-    return 0;
 }
+
+static int sm4_cbc_test(void)
+{
+}
+

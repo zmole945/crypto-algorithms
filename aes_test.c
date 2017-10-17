@@ -80,7 +80,6 @@ int aes128_ecb_test()
                     enc_buf,
                     schedule,
                     KEY_BIT);
-
     pass = pass && !memcmp(enc_buf, ct, DATA_SIZE);
 
     aes_decrypt_ecb(ct,
@@ -88,7 +87,6 @@ int aes128_ecb_test()
                     enc_buf,
                     schedule,
                     KEY_BIT);
-
     pass = pass && !memcmp(enc_buf, pt, DATA_SIZE);
 
     return pass;

@@ -16,6 +16,12 @@
 /****************************** MACROS ******************************/
 #define SM4_ENCRYPT     1
 #define SM4_DECRYPT     0
+/**
+ * \def    SM4_BLOCK_SIZE
+ * \brief
+ *       SM4加密算法單個分組大小16字節
+ */
+#define SM4_BLOCK_SIZE 16
 
 /**************************** DATA TYPES ****************************/
 /**
